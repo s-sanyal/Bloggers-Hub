@@ -17,7 +17,7 @@
              <input type="text" placeholder="Search..">
              <button href="#" class="search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
          </div>
-        <a href="#"><span><i class="fa fa-sign-in" aria-hidden="true"></i></span>LOG IN</a>
+        {% block logs %}<a href="#"><span><i class="fa fa-sign-in" aria-hidden="true"></i></span>LOG IN</a>{% endblock %}
         {% block reg %}<a href="#"><span><i class="fa fa-user-plus" aria-hidden="true"></i></span>SIGN UP</a>{%endblock%}
     </div>
 {% block body %}
