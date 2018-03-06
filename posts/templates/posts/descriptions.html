@@ -1,0 +1,11 @@
+{% extends 'posts/base.html' %}
+{% block title %}BLOG POST{% endblock %}
+{% block body %}
+    <h1>Blog Topic : {{ blog.topic }}</h1><br>
+    <h2>Author : {{ blog.author }}</h2><br>
+    <h3>Title : {{ blog.title }}</h3><br>
+    <h4>Created Date : {{ blog.created_date }}</h4><br>
+    <h4>Created Date : {{ blog.published_date }}</h4><br>
+    <p>{{ blog.description }}</p>
+    <h2>{{ blog.views }}</h2>
+{% endblock %}

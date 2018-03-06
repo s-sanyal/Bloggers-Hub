@@ -1,0 +1,13 @@
+{% extends 'posts/base.html' %}
+{% block title %}Topic Contents{% endblock %}
+{% block body %}
+    <h1>{{ topic.topic_name }}</h1>
+
+    <h2>{{ topic.genre }}</h2>
+
+    <ul>
+        {% for blogs in all_blogs %}
+            <li><a href="{% url 'posts:descriptions' topic.id blogs.id %}">{{ blogs }}</a> </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

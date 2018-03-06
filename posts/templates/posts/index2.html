@@ -1,0 +1,23 @@
+{% extends 'posts/base.html' %}
+{% block title %}Bloggers' Hub{% endblock %}
+{% if user %}
+    {% block reg %}<a href="#">{{ user.username }}</a>{% endblock %}
+{% endif %}
+{% block body %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'posts/style1.css' %}"/>
+    {% if all_topics %}
+        {% for topic in all_topics %}
+            <div class="topics">
+                <img src="{{ topic.topic_logo }}" alt="TOPIC LOGO" width="300px" height="300px">
+                <div class="topic-names">
+                    <p>{{ topic }}</p>
+                </div>
+                <a class="details-view" href="{% url 'posts:detail' topic.id %}">VIEW DETAILS</a>
+                <a class="favourite" href=""><i class="fa fa-star" aria-hidden="true"></i></a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h1>You dont have any albums</h1>
+    {% endif %}
+{% endblock %}

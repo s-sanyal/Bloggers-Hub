@@ -1,0 +1,68 @@
+.topics{
+    float: left;
+    position: relative;
+    background: rgba(255,255,255,0.3);
+    border-radius: 5%;
+    top: 75px;
+    width: 400px;
+    height: 400px;
+    /*padding: 20px;*/
+    margin: 20px;
+}
+.topics img{
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%,-5%);
+
+
+}
+.topic-names{
+    position: absolute;
+    /*top: 332px;*/
+    bottom: 40px;
+    padding: 10px;
+    width: 400px;
+    left: 50%;
+    transform: translate(-50%);
+    display: block;
+    font-size: 20px;
+    text-align: center;
+    letter-spacing: 2px;
+    font-weight: bold;
+    color: floralwhite;
+
+
+}
+.details-view{
+    position: absolute;
+    bottom: 20px;
+    margin: 8px;
+    float: left;
+    display: inline-block;
+    text-decoration: none;
+    letter-spacing: 2px;
+    background: aqua;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5%;
+}
+.details-view:hover{
+     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+.favourite{
+    position: absolute;
+    bottom: 15px;
+    margin: 8px;
+    right: 21px;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 35px;
+    color: gray;
+    padding: 10px;
+
+}
+.favourite:hover{
+    color: gold;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
