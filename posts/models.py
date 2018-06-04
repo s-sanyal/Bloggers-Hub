@@ -20,18 +20,20 @@ class Profile(models.Model):
          return self.user.username
 
 class Topic(models.Model):
-    topic_name=models.CharField(max_length=300)
-    genre= models.CharField(max_length=100)
+    topic_name=models.CharField(max_length=300,unique=True)
+    genre= models.CharField(max_length=100,unique=True)
     topic_logo=models.CharField(max_length=1000)
     def __str__(self):
         return self.topic_name
 class Blogs(models.Model):
     topic= models.ForeignKey(Topic, on_delete=models.CASCADE)
-    author=models.ForeignKey(User, null=True, blank=True)
-    title=models.CharField(max_length=1000)
+    author=models.ForeignKey(Profile, null=True, blank=True)
+    title=models.CharField(max_length=1000,unique=True)
     description=models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(auto_now_add=True)
     views=models.IntegerField(default=0,editable=False)
+    class Meta:
+        ordering = ['-views']
     def __str__(self):
         return self.title

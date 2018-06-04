@@ -1,0 +1,132 @@
+<html>
+    <head>
+         
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>  
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+       <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+   
+  
+</head>
+<body>
+    <div class="container" >
+            <div class="card">
+                    <div class="card-action teal white-text "><h5>ADD A BLOG</h5></div>
+            <div class="card-content">
+                <div class="row">
+                <form class="col s12" action="{% url 'posts:Add' %}" onsubmit="this['description'].value=quill.getContentts();" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="input-field col s12">
+                        <input id="topic" type="text" class="autocomplete" name="topic" autocomplete="off">
+                        <label for="topic">TOPIC</label>
+                    </div>   
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input disabled value="{{ request.user.username }}" id="disabled" type="text" class="validate" name="author">
+                      <label for="disabled">Author(Uneditable)</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="title" type="text" class="validate" name="title" autocomplete="off">
+                      <label for="title">TITLE</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col s12">
+                        <div id="toolbar"></div>
+                        <div id="editor" style="height:50%"></div>
+                        <input id="desc" type="hidden" name="description">
+                    </div>
+                  </div>
+                  <button class="btn-large waves-effect waves-dark" type="submit" style="width:25%">button</button>
+                </form>
+              </div>
+            </div>
+            </div>
+        </div>
+  
+ 
+  <script>
+    var toolbarOptions=[
+        ['bold', 'italic', 'underline', 'strike'],
+        ['blockquote','code-block'],
+        [{'list':'ordered'},{'list':'bullet'}],
+        [{'script':'sub'},{'script':'super'}],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+        [{ 'size': ['small', false, 'large', 'huge'] }],
+        ['link', 'image', 'formula'],
+        [{ 'color': [] }, { 'background': [] }],          
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+    ];
+      
+    var quill = new Quill('#editor',{
+          modules:{
+              toolbar:toolbarOptions
+          },
+          theme:'snow'
+      });
+     
+      
+  </script>
+  <script>
+      var values={}
+    {% for topic in all_topics %}
+        values['{{ topic.topic_name }}']=null;
+    {% endfor %}
+    //console.log(values);
+        $('input.autocomplete').autocomplete({
+            data: values,
+          });
+          var k=0,i;
+          var arr=[]
+          {% for titles in all_blogs  %}
+            arr.push('{{titles.title}}'.toLowerCase())
+          {% endfor %}
+          console.log(arr);
+            len=arr.length;
+          $('#title').change(function(){
+              x=$('#title').val();
+              console.log(x.toLowerCase());
+
+             for(i=0;i<len;i++){
+              console.log(x.toLowerCase()===arr[i]);
+                 if(x.toLowerCase()===arr[i]){
+                   k=1;
+                   console.log("Hello");
+                   break;
+                 }
+                 else{
+                   k=0;     
+                 }
+             }
+             console.log(k);
+          });
+          
+          
+      $(':button').click(function(event){
+        if(k==1){
+          console.log("Hello");
+          event.preventDefault();
+        }
+        else{
+          
+          window.delta=quill.getContents();
+          console.log(delta);
+          $('#desc').val(JSON.stringify(quill.getContents()));
+          
+          console.log($('#desc').val());
+        }
+      });
+  </script>
+</body>
+</html>

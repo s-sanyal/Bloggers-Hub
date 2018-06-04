@@ -1,20 +1,112 @@
-{% extends 'posts/base.html' %}
-{% block title %}Bloggers' Hub{% endblock %}
-{% block body %}
-    {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'posts/style1.css' %}"/>
+<html>
+<head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      
+     
+       <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+            
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>  
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+
+     <script src="https://use.fontawesome.com/64b4715cd6.js"></script>
+     
+     {% include 'posts/base.html' %}
+     {%load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'posts/style3.css' %}">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'posts/style1.css' %}"/> 
+     
+</head>
+
+
+<body >  
+    
+    <main>
     {% if all_topics %}
+    <div class="carousel">
         {% for topic in all_topics %}
-            <div class="topics">
-                <img src="{{ topic.topic_logo }}" alt="TOPIC LOGO" width="300px" height="300px">
-                <div class="topic-names">
-                    <p>{{ topic }}</p>
-                </div>
-                <a class="details-view" href="{% url 'posts:detail' topic.id %}">VIEW DETAILS</a>
-                <a class="favourite" href=""><i class="fa fa-star" aria-hidden="true"></i></a>
+           
+            <div class="topics carousel-item" style="height:350px;width:400px;">
+                <img src="{{ topic.topic_logo }}" alt="TOPIC LOGO" width="10px" height="300px">
+                <a class="topic-names" href="{% url 'posts:detail' topic.id 1 %}"><p>{{ topic }}</p></a>
+               
             </div>
         {% endfor %}
+    </div>
     {% else %}
         <h1>You dont have any albums</h1>
     {% endif %}
-{% endblock %}
+    {% if max_blogs %}
+    <div class="trending"><div class="bolt"><i class="fa fa-line-chart" aria-hidden="true"></i></i></div> TRENDING POSTS</div>
+        {% for blog in max_blogs %}
+            <div class="contents">
+                    <div class="title"><h3><span><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>{{ blog.title }}</h3></div>
+                <div class="blog-details">
+                    <ul>
+                        <li><span><i class="fa fa-pencil" aria-hidden="true"></i></span> : {{ blog.author }}</li>
+                        <li><span><i class="fa fa-tag" aria-hidden="true"></i></span> : {{ blog.topic }}</li>
+                        <li><span><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></span> : {{ blog.published_date }}</li>
+                        <li><span><i class="fa fa-eye" aria-hidden="true"></i></span> :  {{ blog.views }}</li>
+                    </ul> 
+                </div>
+                <div id="toolbar"></div>
+                <div id="editor{{forloop.counter}}"></div>
+                <a class="waves-effect waves-light btn-large more" href="{%url 'posts:descriptions' blog.topic.id blog.id %}">READ MORE</a>
+        </div>
+        {% endfor %}
+    {% endif %}
+    <div id="editor" style="visibility:hidden;display:none"></div>
+    </main>
+        <footer class="page-footer">
+            <div class="container">
+              <div class="row">
+                <div class="col l6 s12">
+                  <h5 class="white-text">Footer Content</h5>
+                  <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                  <h5 class="white-text">Links</h5>
+                  <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="footer-copyright">
+              <div class="container">
+              © 2018 Copyright Text
+              <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+              </div>
+            </div>
+          </footer>
+<script>
+    $(document).ready(function(){
+      
+        $('.carousel').carousel();
+
+        var quill = new Quill('#editor',{
+                modules:{
+                    toolbar:false
+                },
+                theme:'bubble'
+            });
+            var blogs = jQuery.parseJSON( "{{ pair | escapejs}}" ); 
+            console.log(jQuery.type(blogs[3]));  
+            for(i=0;i<5;i++){
+                var y=$.parseJSON(blogs[i]);
+                quill.setContents(y);
+                $('#editor'+(i+1)).html(quill.root.innerHTML.substring(0,300)+"...");
+            }
+        });
+</script>
+</body>
+</html>

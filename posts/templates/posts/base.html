@@ -4,12 +4,36 @@
     <meta charset="UTF-8">
     <title>{% block title %}Title{% endblock %}</title>
     {% load staticfiles %}
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+     <!-- Compiled and minified CSS -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/css/materialize.min.css">
+
+     <!-- Compiled and minified JavaScript -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
+    
     <link rel="stylesheet" type="text/css" href="{% static 'posts/style.css' %}"/>
+   
     <script src="https://use.fontawesome.com/64b4715cd6.js"></script>
 
 </head>
 <body>
-    <div class="nav-bar">
+        <div class="preloader-background">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <main>
+    <div class="nav-bar  teal darken-2">
         <a href="{% url 'posts:index' %}">BLOGGERS HUB</a>
         <a href="#"><span><i class="fa fa-pencil" aria-hidden="true"></i></span>CONTRIBUTORS</a>
         <a href="#"><span><i class="fa fa-users" aria-hidden="true"></i></span>ABOUT US</a>
@@ -17,10 +41,52 @@
              <input type="text" placeholder="Search..">
              <button href="#" class="search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
          </div>
-        {% block logs %}<a href="#"><span><i class="fa fa-sign-in" aria-hidden="true"></i></span>LOG IN</a>{% endblock %}
-        {% block reg %}<a href="#"><span><i class="fa fa-user-plus" aria-hidden="true"></i></span>SIGN UP</a>{%endblock%}
+         {% if request.user.username != "" %}
+        <a><span><i class="fa fa-sign-out" aria-hidden="true"></i></span>LOG OUT</a>
+        <a href="#">{{request.user.username}}</a>
+        {% else %}
+        <a class="modal-trigger" href="#modal1"><span><i class="fa fa-sign-in" aria-hidden="true"></i></span>LOG IN</a>
+        <a href="#"><span><i class="fa fa-user-plus" aria-hidden="true"></i></span>SIGN UP</a>
+        {% endif %}
+        
     </div>
-{% block body %}
+</main>
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <div class="card-panel blue white-text"><h5>LOG IN</h5></div>
+            <div class="row">
+                <form class="col s12" action="{% url 'posts:login' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="USERNAME" type="text" class="validate" name="username" autocomplete="off">
+                                <label class="active"  for="USERNAME">UserName</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="PASSWORD" type="password" class="validate" name="password" autocomplete="off">
+                            <label class="active" for="PASSWORD">Password</label>
+                        </div>
+                    </div>
+                    <button class="btn-large waves-effect waves-dark"  type="submit" style="width:100%">button</button>
+                </form>
+                                        
+            </div>    
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('.preloader-background').delay(1700).fadeOut('slow');
+	
+            $('.preloader-wrapper')
+                .delay(1700)
+                .fadeOut();
+            $('.modal').modal();
+          });
+        
+    </script>
+{%  block body %}
 {% endblock %}
 </body>
 </html>

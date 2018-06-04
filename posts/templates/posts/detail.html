@@ -1,6 +1,17 @@
-{% extends 'posts/base.html' %}
-{% block title %}Topic Contents{% endblock %}
-{% block body %}
+<html>
+    <head>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+{% include 'posts/base.html' %}
+ <!-- Compiled and minified CSS -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+ <!-- Compiled and minified JavaScript -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+         
+</head> 
+<title>BLOG POST</title>
+<body>
     <h1>{{ topic.topic_name }}</h1>
 
     <h2>{{ topic.genre }}</h2>
@@ -10,4 +21,25 @@
             <li><a href="{% url 'posts:descriptions' topic.id blogs.id %}">{{ blogs }}</a> </li>
         {% endfor %}
     </ul>
-{% endblock %}
+    <ul class="pagination">
+        {% if not all_blogs.has_previous %}    
+        <li class="waves-effect disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+        {% else %}
+        <li class="waves-effect"><a href="{% url 'posts:detail' topic.id all_blogs.previous_page_number %}"><i class="material-icons">chevron_left</i></a></li>
+         {% endif %}   
+        <li class="waves-effect active"><a href="#!">{{all_blogs.number}}</a></li>
+        {% if all_blogs.has_next %}    
+            <li class="waves-effect"><a href="{% url 'posts:detail' topic.id all_blogs.next_page_number %}">{{all_blogs.next_page_number}}</a></li>
+            
+        {%endif%} 
+        {% if not all_blogs.has_next %}    
+        <li class="waves-effect disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+        {% else %}
+        <li class="waves-effect"><a href="{% url 'posts:detail' topic.id all_blogs.next_page_number %}"><i class="material-icons">chevron_right</i></a></li>
+         {% endif %}  
+        </ul>
+</body>
+<script>
+
+</script>
+</html>

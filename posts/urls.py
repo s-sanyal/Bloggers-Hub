@@ -5,7 +5,7 @@ urlpatterns = [
     # /posts/
     url(r'^$', views.index, name='index'),
     # /posts/<topic_id>
-    url(r'^(?P<topic_id>[0-9]+)/$',views.detail, name='detail'),
+    #url(r'^(?P<topic_id>[0-9]+)/$',views.detail, name='detail'),
     # /posts/<topic_id>/<blog_id>/
     url(r'^(?P<topic_id>[0-9]+)/(?P<blog_id>[0-9]+)/$', views.descriptions, name='descriptions'),
     # /posts/register/
@@ -14,4 +14,8 @@ urlpatterns = [
     url(r'^login/$',views.LoginFormView.as_view(),name='login'),
     # /posts/users/<user_id>/
     url(r'^login/users/(?P<user_id>[0-9]+)/$',views.loginmode, name='loginmode'),
+    #/posts/add/
+     url(r'^add/$',views.AddFormView.as_view(),name='Add'),
+    #/posts/<topic_id>/page=<page>
+    url(r'^(?P<topic_id>[0-9]+)/page=(?P<page>[0-9]+)/$',views.detail, name='detail'),
 ]

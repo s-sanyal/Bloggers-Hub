@@ -1,8 +1,50 @@
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% for field in form %}
-        <label >{{ field.label_tag }}</label>
-        <div>{{ field }}</div>
-    {% endfor %}
-    <button type="submit">SUBMIT</button>
-</form>
+<html>
+    <head>
+        <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+          
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+    <body>
+        
+      <div class="row">
+            <div class="col s12 m4 offset-m4">
+                <div class="card">
+                    <div class="card-action blue white-text "><h5>LOG IN</h5></div>
+                    <div class="card-content">
+                            <div class="row">
+                                    <form class="col s12" action="" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                      <div class="row">
+                                        <div class="input-field col s12">
+                                          <input id="USERNAME" type="text" class="validate" name="username" autocomplete="off">
+                                          <label class="active"  for="USERNAME">UserName</label>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="input-field col s12">
+                                          <input id="PASSWORD" type="password" class="validate" name="password" autocomplete="off">
+                                          <label class="active" for="PASSWORD">Password</label>
+                                        </div>
+                                      </div>
+                                      <button class="btn-large waves-effect waves-dark" type="submit" style="width:100%">button</button>
+                                    </form>
+                                    
+                                  </div>    
+                    </div>
+                </div>
+                
+            </div>
+      </div>
+        
+          <script>
+                $(document).ready(function() {
+                    Materialize.updateTextFields();
+                  });
+                      
+          </script>
+    </body>
+</html>

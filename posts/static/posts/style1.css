@@ -1,13 +1,18 @@
-.topics{
+body{
+    padding-top:6em;
+}
+.topics {
     float: left;
     position: relative;
-    background: rgba(255,255,255,0.3);
-    border-radius: 5%;
+    background:white;
+    /*border-radius: 5%;*/
+    /*border: 2px solid red;*/ 
     top: 75px;
     width: 400px;
     height: 400px;
     /*padding: 20px;*/
     margin: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .topics img{
     position: absolute;
@@ -20,8 +25,8 @@
 .topic-names{
     position: absolute;
     /*top: 332px;*/
-    bottom: 40px;
-    padding: 10px;
+    bottom: 0px;
+    padding: 0px;
     width: 400px;
     left: 50%;
     transform: translate(-50%);
@@ -30,6 +35,7 @@
     text-align: center;
     letter-spacing: 2px;
     font-weight: bold;
+    background-color: aqua;
     color: floralwhite;
 
 
@@ -65,4 +71,72 @@
 .favourite:hover{
     color: gold;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+pre {
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: white;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: black;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  #editor1,#editor2,#editor3,#editor4,#editor5{
+    padding-left:20px;
+    padding-right: 20px;
+    margin :  auto;
+    margin-top: 20px;
+    height : auto;
+    overflow : hidden;
+    width:80%;
+    border:None;
+}
+.contents{
+    width: 80%;
+    margin-top: 20px;
+    border: 1px solid black;
+    margin-left:  35px; 
+    
+}
+.page-footer{
+    
+    margin-top:100px; 
+}
+.trending{
+    
+    position: relative;
+    width: 35%;
+    padding:35px;
+    top:80px;
+    font-size: 2em;
+    font-weight:bolder;  
+}
+.bolt{
+    width:60px;
+    height: 60px;
+    border : 2px solid black;
+    border-radius: 50%;
+    float: left;
+    margin-right: 15px;
+}
+.fa-line-chart{
+    position: relative;
+    transform: translate(35%,45%);
+    float: left;
+    
+}
+.more{
+    float: right;
+    margin : 15px;
+}
+.title{
+    margin-left: 10px;
+}
+.fa-user-circle-o{
+    margin : 10px;
+    color: gray; 
 }
