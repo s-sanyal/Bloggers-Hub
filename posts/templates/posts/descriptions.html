@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">  
     
     {%load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'posts/style2.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'posts/style3.css' %}">
     
     
 
@@ -25,7 +25,7 @@
 {% include 'posts/base.html' %}
 
 <body>
-    
+    <main>
 <div class="contents">
     <div><h3>{{ blog.title }}</h3></div>
         <div class="blog-details">
@@ -42,12 +42,10 @@
     <div id="toolbar"></div>
     
         <div id="editor" style="height:auto"></div>
+    
 </div>
-    
-
-
-  
-    
+</main>
+{% include 'posts/footer.html' %}
     <script>
             var toolbarOptions=[['bold', 'italic', 'underline', 'strike'],
             ['blockquote','code-block'],

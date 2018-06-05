@@ -18,4 +18,6 @@ urlpatterns = [
      url(r'^add/$',views.AddFormView.as_view(),name='Add'),
     #/posts/<topic_id>/page=<page>
     url(r'^(?P<topic_id>[0-9]+)/page=(?P<page>[0-9]+)/$',views.detail, name='detail'),
+     # /posts/logout/
+     url(r'^logout/$',views.logout_view,name='logout_view'),
 ]

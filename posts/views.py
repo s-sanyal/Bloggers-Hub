@@ -25,16 +25,22 @@ def index(request):
 def detail(request , topic_id, page):
     topic=get_object_or_404(Topic,pk=topic_id)
     all_blogs = topic.blogs_set.all()
+    
+
     paginator= Paginator(all_blogs, 5)
     try:
         all_blogs= paginator.page(page)
+        pair={};i=0
+        for blog in all_blogs.object_list:
+            pair[i]=blog.description
+            i+=1
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
         all_blogs= paginator.page(1)
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         all_blogs= paginator.page(paginator.num_pages)
-    return render(request,'posts/detail.html',{'topic':topic,'all_blogs':all_blogs})
+    return render(request,'posts/detail.html',{'topic':topic,'all_blogs':all_blogs,'pair':json.dumps(pair)})
 
 def descriptions(request,topic_id,blog_id):
     blog = get_object_or_404(Blogs,pk=blog_id)
@@ -80,6 +86,9 @@ class LoginFormView(View):
             #return render(request,'posts/index2.html',{'all_topics':all_topics,'user':user})
             return redirect('posts:index')
         return render(request,self.template_name)
+def logout_view(request):
+    logout(request)
+    return redirect('posts:index')
 
 @login_required(login_url='posts:login')
 def loginmode(request,user_id):
