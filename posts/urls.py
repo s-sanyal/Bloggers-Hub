@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^(?P<topic_id>[0-9]+)/page=(?P<page>[0-9]+)/$',views.detail, name='detail'),
      # /posts/logout/
      url(r'^logout/$',views.logout_view,name='logout_view'),
+     #/posts/user=<user_id>
+     url(r'^users=(?P<user_id>[0-9]+)/$',views.profile_view, name='profile'),
 ]

@@ -96,7 +96,7 @@ pre {
     border:None;
 }
 .contents{
-    width: 80%;
+    width: 60%;
     margin-top: 20px;
     border: 1px solid black;
     margin-left:  35px; 
@@ -139,4 +139,7 @@ pre {
 .fa-user-circle-o{
     margin : 10px;
     color: gray; 
+}
+li{
+    font-size: 16px;
 }

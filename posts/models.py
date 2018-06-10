@@ -9,6 +9,7 @@ class Profile(models.Model):
      mail=models.CharField(max_length=250,editable=False)
      phone=models.IntegerField(default=0)
      city=models.CharField(max_length=100)
+     profile_pic=models.FileField(blank=True, null=True,default='settings.MEDIA_ROOT/static/posts/images/blank-profile-picture-973460_640.png')
      @receiver(post_save,sender=User)
      def create_user_profile(sender,instance, created, **kwargs):
          if created:

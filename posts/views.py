@@ -52,21 +52,25 @@ class UserFormView(View):
     form_class=UserForm
     template_name= 'posts/registration_form.html'
     def get(self,request):
-        form=self.form_class(None)
-        return render(request,self.template_name,{'form':form})
+        pass
+        # form=self.form_class(None)
+        # return render(request,self.template_name,{'form':form})
     def post(self,request):
-        form=self.form_class(request.POST)
-        if form.is_valid():
-            user=form.save(commit=False)
-            username=form.cleaned_data['username']
-            password=form.cleaned_data['password']
-            user.set_password(password)
-            user.save()
-            user.profile.city=form.cleaned_data['city']
-            user.profile.phone=form.cleaned_data['phone']
-            user.profile.save()
-
-            return redirect('posts:index')
+        # form=self.form_class(request.POST)
+        # if form.is_valid():
+        #     user=form.save(commit=False)
+        username=request.POST['username']
+        password=request.POST['password']
+        email=request.POST['email']
+        #     user.set_password(password)
+        #     user.save()
+        #     user.profile.city=form.cleaned_data['city']
+        #     user.profile.phone=form.cleaned_data['phone']
+        #     user.profile.save()
+        user=User.objects.create_user(username=username,email=email,password=password)
+        profile=Profile.objects.get(user=user)
+        return render(request,'posts/profile.html',{'user':user,'profile':profile})
+        #return render(request,self.template_name,{'form':form})
 
 class LoginFormView(View):
     #form_class=LoginForm
@@ -109,5 +113,16 @@ class AddFormView(View):
         author=request.user.username
         title=request.POST['title']
         description=request.POST['description']
-        Blogs.objects.create(topic=Topic.objects.get(topic_name=topic),author=Profile.objects.get(user=User.objects.get(username=author)),title=title,description=description)
+        Blogs.objects.create(topic=Topic.objects.get(topic_name=topic),
+                author=Profile.objects.get(user=User.objects.get(username=author)),title=title,description=description)
         return redirect('posts:index')
+def profile_view(request,user_id):
+    user=User.objects.get(id=user_id)
+    profile=Profile.objects.get(user=user)
+    all_blogs=Blogs.objects.filter(author=profile)
+    pair={};i=0
+    for blog in all_blogs:
+        pair[i]=blog.description
+        i+=1
+    return render(request,'posts/profile.html',{'user':user,'profile':profile,'all_blogs':all_blogs,
+                'pair':json.dumps(pair)})

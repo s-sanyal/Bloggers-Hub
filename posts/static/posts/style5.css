@@ -1,0 +1,92 @@
+main{
+    top:6em;
+    position: relative;
+    height: auto;
+    overflow: auto;
+    /*border: 2px solid red;*/
+}
+.cover{
+    position: relative;
+    /*margin: 6em 20px 20px 17% ;*/
+    top:0em;
+    margin-left:auto;
+    margin-right:auto; 
+    margin-bottom:20px;  
+    border: 1px solid black;
+    width: 853px;
+}
+.profile_pic{
+    position: absolute;
+    top: 12em;
+    left: 21%;
+}
+img.pp,img.cp{
+    position: relative;
+    border: 2.5px solid white;  
+}
+.bio{
+    position: relative;
+    border: 1px solid  black;
+    border-radius: 5px;
+    width: 20%;
+    height: 30%;
+    margin-top:50px;
+    left: 18%;
+}
+.bio_title{
+    position: relative;
+    width: 93%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    font-size:20px;
+    /*border:2px solid  red;*/
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+.title span{
+    margin-right:5px; 
+}
+.page-footer{
+    margin-top:100px; 
+}
+.info{
+    padding-left:20px;
+    padding-right: 20px;
+    margin :  auto;
+    margin-top: 20px;
+    height : auto;
+    overflow : hidden;
+    width:80%;
+    border:None;
+}
+.contents{
+    top:0;
+    width:87%;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    margin-top:0px; 
+}
+.all_blogs{
+    top: -200px;
+    /* border: 2px solid red; */
+    position: relative;
+    left: 38%;
+    width: 50%;
+}
+.blog-details li{
+    font-size: 14px;
+}
+.title{
+
+    white-space: nowrap; 
+    font-size: 40px;
+    margin-top: 20px;
+    margin-right: 20px;
+    /*width: 300px;*/
+    /*border: 2px solid red;*/
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+

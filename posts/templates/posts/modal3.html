@@ -1,0 +1,32 @@
+<html>
+     <div id="modal3" class="modal">
+                    <div class="modal-content">
+                        <div class="card-panel blue white-text"><h5>SIGN UP</h5></div>
+                        <div class="row">
+                            <form class="col s12" action="{% url 'posts:registration' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="USERNAME" type="text" class="validate" name="username" autocomplete="off">
+                                            <label class="active"  for="USERNAME">UserName</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="email" type="email" name="email" class="validate">
+                                        <label for="email">Email</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="PASSWORD" type="password" class="validate" name="password" autocomplete="off">
+                                        <label class="active" for="PASSWORD">Password</label>
+                                    </div>
+                                </div>
+                                <button class="btn-large waves-effect waves-dark"  type="submit" style="width:100%">REGISTER</button>
+                            </form>
+                                                    
+                        </div>    
+                    </div>
+                </div>
+</html>
