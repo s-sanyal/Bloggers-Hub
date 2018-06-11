@@ -1,0 +1,32 @@
+#modal3{
+    top: 3% !important;
+    height: 95% !important; 
+}
+.reg{
+    position: relative;
+    left: 25%;
+}
+.icon{
+    font-size: 20px;
+    display: none;
+    /*float: right;*/
+    height: 60px;
+    /*border: 1px solid red;*/
+}
+.fa-check{
+    color: green;
+    position: relative;
+    top: 55%;
+    left: 30%;
+    
+}
+.fa-times{
+    color: red;
+    position: relative;
+    top: 55%;
+    left: 30%;
+   
+}
+.err,.e-err{
+    display: none;
+}

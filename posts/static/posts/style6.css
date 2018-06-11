@@ -1,0 +1,13 @@
+.modal { 
+    width: 40% !important ;
+    height: 80% !important; 
+    max-height: 100% !important ; 
+    overflow-y: hidden !important ;
+}
+.log{
+    position: relative;
+    left: 25%;
+}
+.new_user{
+    text-align: center;
+}

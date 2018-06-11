@@ -8,7 +8,7 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
             {%load static %}
            <link rel="stylesheet" type="text/css" href="{% static 'posts/style.css' %}"/>
-          
+           <link rel="stylesheet" type="text/css" href="{% static 'posts/style6.css' %}"/>
            <script src="https://use.fontawesome.com/64b4715cd6.js"></script>
           
 
@@ -20,23 +20,64 @@
                         <div class="row">
                             <form class="col s12" action="{% url 'posts:login' %}" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
+                                <div>
+                                    <p class=" err center-align red lighten-1 white-text" style="display:none">
+                                        Please Enter Valid UserName or Password</p>
+                                  </div>
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <input id="USERNAME" type="text" class="validate" name="username" autocomplete="off">
+                                        <input id="USERNAME1" type="text" class="validate" name="username" autocomplete="off">
                                             <label class="active"  for="USERNAME">UserName</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <input id="PASSWORD" type="password" class="validate" name="password" autocomplete="off">
+                                        <input id="PASSWORD1" type="password" class="validate" name="password" autocomplete="off">
                                         <label class="active" for="PASSWORD">Password</label>
                                     </div>
                                 </div>
-                                <button class="btn-large waves-effect waves-dark"  type="submit" style="width:100%">button</button>
+                                <button class="btn-large waves-effect waves-dark log"  type="submit" style="width:50%">LOG IN</button>
+                                <p class="new_user">New User | <a class="modal-trigger shortcut_signup" href="#modal3">Sign Up</a></p>
                             </form>
-                                                    
+                                           
                         </div>    
                     </div>
                 </div>
     </body>
+    <script>
+        $('.log').click(function(e){
+            e.preventDefault();
+            //console.log($('#USERNAME1').val());
+            var name=$('#USERNAME1').val()
+            var pass=$('#PASSWORD1').val()
+            
+            $.ajax({
+                url:'{% url "posts:login" %}',
+                data:{
+                    'name':name,
+                    'pass':pass,
+                },
+                dataType:'json',
+                success:function(data){
+                    if(data.is_valid){
+                        //$('.modal').modal('close');
+                        //alert('Logged In Successfully');
+                        location.reload()
+                    }
+                  else{
+                    console.log(data.is_valid);
+                    $('#PASSWORD1').val('');
+                    //console.log(b)
+                    //console.log($('#PASSWORD').val());
+                    $('.err').css("display","block");
+                    ;
+                  } 
+                }
+            });
+            return false;
+        });
+        $('.shortcut_signup').click(function(e){
+            $('#modal1').modal('close');
+        })
+    </script>
 </html>

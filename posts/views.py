@@ -1,5 +1,6 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.contrib.auth import authenticate,login,logout
+from django.http import JsonResponse
 from django.views import generic
 from django.views.generic import View
 from .forms import UserForm,LoginForm
@@ -70,15 +71,38 @@ class UserFormView(View):
         user=User.objects.create_user(username=username,email=email,password=password)
         profile=Profile.objects.get(user=user)
         return render(request,'posts/profile.html',{'user':user,'profile':profile})
-        #return render(request,self.template_name,{'form':form})
-
+        #(return render(request,self.template_name,{'form':form})
+def check(request):
+    username=request.GET.get('name',None)
+    data = {
+        'is_taken': User.objects.filter(username__iexact=username).exists()
+    }
+    return JsonResponse(data)
+def e_check(request):
+    mail=request.GET.get('mail',None)
+    data = {
+        'is_taken': User.objects.filter(email=mail).exists()
+    }
+    return JsonResponse(data)
 class LoginFormView(View):
     #form_class=LoginForm
     template_name= 'posts/login_form.html'
     
     def get(self,request):
+        username=request.GET.get('name',None)
+        password=request.GET.get('pass',None)
+        user=authenticate(username=username,password=password)
+        if user is not None:
+            login(request,user)
+            k=True
+        else:
+            k=False
+        data={
+            'is_valid':k,
+        }
+        return JsonResponse(data)
         #form=self.form_class(None)
-        return render(request,self.template_name)
+        #return render(request,self.template_name)
     def post(self,request):
         all_topics=Topic.objects.all()
         #form=self.form_class(request.POST)
