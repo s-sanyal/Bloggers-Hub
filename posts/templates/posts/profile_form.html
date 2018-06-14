@@ -1,0 +1,7 @@
+<html>
+    <form action="{% url 'posts:uploadpp' user.profile.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+                               
+    </form>
+</html>

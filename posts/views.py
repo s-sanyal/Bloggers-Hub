@@ -3,12 +3,14 @@ from django.contrib.auth import authenticate,login,logout
 from django.http import JsonResponse
 from django.views import generic
 from django.views.generic import View
-from .forms import UserForm,LoginForm
+from django.views.generic.edit import UpdateView
+from .forms import ImageForm
 from .models import Topic,Blogs,Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.files.storage import FileSystemStorage
 def index(request):
     all_topics=Topic.objects.all()
     max_blogs=Blogs.objects.all()[:5]
@@ -50,7 +52,7 @@ def descriptions(request,topic_id,blog_id):
     return render(request, 'posts/descriptions.html', {'blog': blog})
 
 class UserFormView(View):
-    form_class=UserForm
+    #form_class=UserForm
     template_name= 'posts/registration_form.html'
     def get(self,request):
         pass
@@ -70,7 +72,10 @@ class UserFormView(View):
         #     user.profile.save()
         user=User.objects.create_user(username=username,email=email,password=password)
         profile=Profile.objects.get(user=user)
-        return render(request,'posts/profile.html',{'user':user,'profile':profile})
+        user=authenticate(username=username,password=password)
+        if user is not None:
+            login(request,user)
+        return redirect('posts:profile',user_id=user.id)
         #(return render(request,self.template_name,{'form':form})
 def check(request):
     username=request.GET.get('name',None)
@@ -150,3 +155,24 @@ def profile_view(request,user_id):
         i+=1
     return render(request,'posts/profile.html',{'user':user,'profile':profile,'all_blogs':all_blogs,
                 'pair':json.dumps(pair)})
+def pp_uploads(request,user_id):
+    user=User.objects.get(id=user_id)
+    profile=Profile.objects.get(user=user)
+    
+    data={
+            'ok':False
+        }
+    if request.method=='POST':
+        user.profile.profile_pic=request.FILES['file']
+        user.save()
+        user.profile.save()
+        data={
+            'ok':True,
+            'url':str(user.profile.profile_pic.url)
+        }
+    return JsonResponse(data)
+    
+
+# class Profile_Update(UpdateView):
+#     model=Profile
+#     fields=['profile_pic']

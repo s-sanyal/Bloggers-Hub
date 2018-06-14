@@ -1,0 +1,16 @@
+<html>
+    <div id="modal4" class="modal">
+        <div class="modal-content">
+                <div class="row">
+                        <form action="{% url 'posts:uploadpp' user.profile.id %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{form.as_p}}
+                            <input id="id_profile_pic" name="profile_pic" type="file">      
+                        </form>
+                    
+                    <button class="sub"  type="submit">Submit</button> 
+                </div>
+        </div>
+    </div>
+
+</html>

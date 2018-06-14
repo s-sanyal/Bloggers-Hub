@@ -22,7 +22,10 @@ urlpatterns = [
      url(r'^logout/$',views.logout_view,name='logout_view'),
      #/posts/user=<user_id>
      url(r'^users=(?P<user_id>[0-9]+)/$',views.profile_view, name='profile'),
-
+     #/posts/user_check/
      url(r'^user_check/$',views.check, name='check'),
+     #/posts/email_check/
      url(r'^email_check/$',views.e_check, name='echeck'),
+    url(r'^pp_upload/(?P<user_id>[0-9]+)/$',views.pp_uploads, name='uploadpp'),
+
 ]

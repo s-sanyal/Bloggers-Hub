@@ -11,6 +11,7 @@
         <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>  
         <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
         <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+        <script src="https://use.fontawesome.com/64b4715cd6.js"></script>
         {%load static %}
         <link rel="stylesheet" type="text/css" href="{% static 'posts/style3.css' %}">
        
@@ -22,19 +23,42 @@
     <body>
         {% include 'posts/base.html' %}
         <main>
+            
+           <!-- {% include 'posts/modal4.html' %}-->
+           <form action="{% url 'posts:uploadpp' user.id %}" method="post" name="form" enctype="multipart/form-data" style="display:none">
+            {% csrf_token %}
+            <input type="file" id="fileid" name="img">
+            <button type="submit" class="sub">Submit</button>
+            </form>
         <div class="cover">
             
             <img class="cp" src="/static/posts/images/default-bigcover.jpg" width="851px" height="315px">
         </div>
         <div class="profile_pic">
-            {% if user.profile.profile_pic %}
-            <img class="pp" src="{{user.profile.profile_pic.url}}"  width="168px" height="168px">    
-            {% else %}
-                <img class="pp" src="/static/posts/images/blank-profile-picture-973460_640.png" width="168px" height="168px">
+            <div class="spinner"><i class="fa fa-spinner fa-spin" ></i></div>
+            <img class="pp materialboxed" src="{{user.profile.profile_pic.url}}"  width="168px" height="168px">    
+            {% if request.user.id == user.id %}
+            <div class="update_pic"><span><i class="fa fa-camera" aria-hidden="true"></i></span>
+                Update Profile Picture</div>
             {% endif %}
         </div>
         <div class="bio">
             <div class="bio_title"><span><i class="fa fa-globe" aria-hidden="true"></i></span>Intro</div>
+            {% if user.profile.phone %}
+                <div class="phone"><span class="icons"><i class="fa fa-phone" aria-hidden="true"></i></span>
+                <div class="val">{{user.profile.phone}}</div></div>
+            {% endif %}
+            {% if user.email %}
+            <div class="mail"><span class="icons"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                <div class="val">{{user.email}}</div></div>
+            {% endif %}
+            {% if user.profile.city %}
+                <div class="phone"><span class="icons"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+                <div class="val">{{user.profile.city}}</div></div>
+            {% endif %}
+            {% if request.user.id == user.id %}
+                <a class="edit-bio modal-trigger" href=""><span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>Edit Bio</a>
+            {% endif %}
         </div>
 
         {% if all_blogs %}
@@ -63,6 +87,7 @@
         {% include 'posts/footer.html' %}
     
     <script>
+            $('.materialboxed').materialbox();
         var quill = new Quill('#editor',{
             modules:{
                 toolbar:false
@@ -81,6 +106,41 @@
             quill.setContents(y);
             $('#editor'+(i+1)).html(quill.root.innerHTML.substring(0,300)+"...");
         }
+        $('.modal').modal();
+        $('.update_pic').click(function(){
+            $('#fileid').click();
+        });
+        $('#fileid').change(function(){
+            //$('#modal4').modal('open');
+            $('.spinner').css("display","block");
+            var csrftoken=document.getElementsByName('csrfmiddlewaretoken')[0].value
+            var formdata=new FormData($('#fileid')[0]);
+            var formdata=new FormData();
+            formdata.append("file",$('#fileid')[0].files[0]);
+            formdata.append("csrfmiddlewaretoken",csrftoken);
+            console.log(formdata['file']);
+            $.ajax({
+                type:"POST",
+                url:"{% url 'posts:uploadpp' user.id %}",
+                data: formdata,
+                contentType: false,
+                processData: false,
+                dataType:'json',
+                success:function(data){
+                    if(data.ok){
+                        $('.spinner').css("display","none");
+                        $('.pp').attr("src",data.url)
+                    }
+                    else{
+                        alert("Failure");
+                    }
+                    
+                },
+                
+            });
+            return false;
+        });
+        
     </script>
 </body>
 </html>

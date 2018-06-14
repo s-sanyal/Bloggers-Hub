@@ -62,7 +62,13 @@
                     if(data.is_valid){
                         //$('.modal').modal('close');
                         //alert('Logged In Successfully');
-                        location.reload()
+                        if($('.btn-floating').data('clicked')){
+                            location.href='{%url "posts:Add" %}';
+                        }
+                        else{
+                            location.reload();
+                        }
+                        
                     }
                   else{
                     console.log(data.is_valid);
