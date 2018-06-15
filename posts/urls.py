@@ -26,6 +26,8 @@ urlpatterns = [
      url(r'^user_check/$',views.check, name='check'),
      #/posts/email_check/
      url(r'^email_check/$',views.e_check, name='echeck'),
+     #/posts/pp_upload/<user_id>/
     url(r'^pp_upload/(?P<user_id>[0-9]+)/$',views.pp_uploads, name='uploadpp'),
-
+    #/posts/bio_save/<user_id>/
+    url(r'^bio_save/(?P<user_id>[0-9]+)/$',views.bio_saves,name='edit_bio')
 ]

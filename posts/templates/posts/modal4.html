@@ -1,16 +1,113 @@
 <html>
     <div id="modal4" class="modal">
         <div class="modal-content">
+                <div class="card-panel blue white-text"><h5>EDIT BIO</h5></div>
                 <div class="row">
                         <form action="{% url 'posts:uploadpp' user.profile.id %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            {{form.as_p}}
-                            <input id="id_profile_pic" name="profile_pic" type="file">      
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="fa fa-phone prefix" aria-hidden="true"></i>
+                                    <input id="icon_telephone" type="tel" class="validate">
+                                    <label class="active" for="icon_telephone">Telephone</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="fa fa-envelope prefix" aria-hidden="true"></i>
+                                    <input id="email" type="email" class="validate">
+                                    <label class="active" for="email">Email</label>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="fa fa-map-marker prefix" aria-hidden="true"></i>
+                                    <input type="text" id="autocomplete-input" class="autocomplete">
+                                    <label class="active" for="autocomplete-input">City</label>
+                                </div>
+                            </div>
                         </form>
                     
-                    <button class="sub"  type="submit">Submit</button> 
+                        <a class="waves-effect waves-light btn-large save">Save</a> 
                 </div>
         </div>
     </div>
 
+    <script>
+            $(document).ready(function(){
+                $('input.autocomplete').autocomplete({
+                    data: {
+                        "KOLKATA": null,
+                        "Asansol": null,
+                        "Siliguri": null,
+                        "Durgapur": null,
+                        "Bardhaman": null,
+                        "Malda": null,
+                        "Baharampur": null,
+                        "Habra": null,
+                        "Kharagpur": null,
+                        "Shantipur": null,
+                        "Dankuni": null,
+                        "Dhulian": null,
+                        "Ranaghat": null,
+                        "Haldia": null,
+                        "Raiganj": null,
+                        "Krishnanagar": null,
+                        "Nabadwip": null,
+                        "Medinipur": null,
+                        "Jalpaiguri": null,
+                        "Balurghat": null,
+                        "Basirhat": null,
+                        "Bankura": null,
+                        "Chakdaha": null,
+                        "Darjeeling": null,
+                        "Alipurduar": null,
+                        "Purulia": null,
+                        "Jangipur": null,
+                        "Bangaon": null,
+                        "Cooch Behar": null,
+                    },
+                    limit : 3,
+                });
+                $("label[for=icon_telephone]").addClass('active');
+                $('#icon_telephone').val('{{user.profile.phone}}');
+
+                $("label[for=email]").addClass('active');
+                $('#email').val('{{user.email}}');
+
+                $("label[for=autocomplete-input]").addClass('active');
+                $('#autocomplete-input').val('{{user.profile.city}}');
+                
+                $('.save').click(function(){
+                    var ph=$('#icon_telephone').val();
+                    var mail= $('#email').val();
+                    var city= $('#autocomplete-input').val();
+                    $.ajax({
+                        url:'{% url "posts:edit_bio" user.id %}',
+                        data:{
+                            'ph':ph,
+                            'mail':mail,
+                            'city':city,
+                        },
+                        dataType: 'json',
+                        success: function(data){
+                            
+                            if(data.status){
+                                
+                                $('#modal4').modal('close');
+                                console.log(data.ph);
+                                console.log($('.phone').children('.val').html());
+                                $('.phone').children('.val').html(data.ph);
+                                $('.mail').children('.val').html(data.mail);
+                                $('.city').children('.val').html(data.city);
+                            }
+                           
+                        },
+                    });
+                    return false;
+                });
+            });
+
+    </script>
 </html>

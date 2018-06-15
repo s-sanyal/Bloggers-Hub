@@ -178,3 +178,11 @@ img.pp,img.cp{
     margin-right: 15px;
     color: #01579b;
 }
+#modal4{
+    top: 2% !important;
+    height: 97% !important; 
+}
+.save{
+    left: 25%;
+    width: 50%;
+}

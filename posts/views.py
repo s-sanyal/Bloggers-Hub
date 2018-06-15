@@ -171,7 +171,21 @@ def pp_uploads(request,user_id):
             'url':str(user.profile.profile_pic.url)
         }
     return JsonResponse(data)
-    
+def bio_saves(request,user_id):
+    user=User.objects.get(id=user_id)
+    profile=Profile.objects.get(user=user)
+    user.profile.phone=request.GET.get('ph',None)
+    user.email=request.GET.get('mail',None)
+    user.profile.city=request.GET.get('city',None)
+    user.save()
+    user.profile.save()
+    data={
+        'ph':user.profile.phone,
+        'mail':user.email,
+        'city':user.profile.city,
+        'status':True,
+    }
+    return JsonResponse(data)
 
 # class Profile_Update(UpdateView):
 #     model=Profile

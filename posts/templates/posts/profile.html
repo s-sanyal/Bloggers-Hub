@@ -19,9 +19,11 @@
         
         <link rel="stylesheet" type="text/css" href="{% static 'posts/style1.css' %}"/>
         <link rel="stylesheet" type="text/css" href="{% static 'posts/style5.css' %}"/>
+        {% include 'posts/base.html' %}
     </head>
     <body>
-        {% include 'posts/base.html' %}
+        
+        {% include 'posts/modal4.html' %}
         <main>
             
            <!-- {% include 'posts/modal4.html' %}-->
@@ -53,11 +55,11 @@
                 <div class="val">{{user.email}}</div></div>
             {% endif %}
             {% if user.profile.city %}
-                <div class="phone"><span class="icons"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+                <div class="city"><span class="icons"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
                 <div class="val">{{user.profile.city}}</div></div>
             {% endif %}
             {% if request.user.id == user.id %}
-                <a class="edit-bio modal-trigger" href=""><span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>Edit Bio</a>
+                <a class="edit-bio modal-trigger" href="#modal4"><span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>Edit Bio</a>
             {% endif %}
         </div>
 
