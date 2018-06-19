@@ -6,6 +6,7 @@
    
         <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
+        
         <script src="https://use.fontawesome.com/64b4715cd6.js"></script>
         <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
         <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>  
@@ -21,6 +22,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'posts/style5.css' %}"/>
         {% include 'posts/base.html' %}
     </head>
+    <title>{{user.username}}</title>
     <body>
         
         {% include 'posts/modal4.html' %}
@@ -32,9 +34,20 @@
             <input type="file" id="fileid" name="img">
             <button type="submit" class="sub">Submit</button>
             </form>
+            <form action="{% url 'posts:uploadcp' user.id %}" method="post" name="form" enctype="multipart/form-data" style="display:none">
+                {% csrf_token %}
+                <input type="file" id="cpid" name="img_cp">
+                <button type="submit" class="sub_cp">Submit</button>
+            </form>
         <div class="cover">
-            
-            <img class="cp" src="/static/posts/images/default-bigcover.jpg" width="851px" height="315px">
+                <div class="cpspin"><i class="fa fa-spinner fa-spin" ></i></div>
+                <img class="cp materialboxed" src="{{user.profile.cover_pic.url}}"  width="851px" height="315px">    
+                {% if request.user.id == user.id %}
+                <div class="update_cover_pic"><span><i class="fa fa-camera" aria-hidden="true"></i></span>
+                   <div class="com">Update Cover Picture</div>  </div>
+                {% endif %}
+            <!--<img class="cp" src="/static/posts/images/default-bigcover.jpg" width="851px" height="315px">-->
+            <div class="name">{{user.username}}</div>
         </div>
         <div class="profile_pic">
             <div class="spinner"><i class="fa fa-spinner fa-spin" ></i></div>
@@ -68,7 +81,7 @@
         {% for blog in all_blogs %}
             
             <div class="contents">
-                    <div class="title"><span><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>{{ blog.title }}</div>
+                    <div class="title"><span class="pp_img"><img class="pp_side" src="{{user.profile.profile_pic.url}}"  width="50px" height="50px"></span><div class="blog_title">{{ blog.title }}</div></div>
                 <div class="blog-details">
                     <ul>
                         <li><span><i class="fa fa-pencil" aria-hidden="true"></i></span> : {{ blog.author }}</li>
@@ -79,6 +92,16 @@
                 </div>
                 <div id="toolbar"></div>
                 <div class="info" id="editor{{forloop.counter}}"></div>
+                <a class="dropdown-trigger" href="" data-target="dropdown1"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></a>
+                <ul id="dropdown1" class="dropdown-content">
+                        <li><a href="#!">one</a></li>
+                        <li><a href="#!">two</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#!">three</a></li>
+                        <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+                        <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+                </ul>                    
+                            
                 <a class="waves-effect waves-light btn-large more" href="{%url 'posts:descriptions' blog.topic.id blog.id %}">READ MORE</a>
             </div>
         {% endfor %}
@@ -89,7 +112,11 @@
         {% include 'posts/footer.html' %}
     
     <script>
+          
+            $('.modal').modal();
+            $('.dropdown-trigger').dropdown();
             $('.materialboxed').materialbox();
+            
         var quill = new Quill('#editor',{
             modules:{
                 toolbar:false
@@ -108,7 +135,7 @@
             quill.setContents(y);
             $('#editor'+(i+1)).html(quill.root.innerHTML.substring(0,300)+"...");
         }
-        $('.modal').modal();
+        
         $('.update_pic').click(function(){
             $('#fileid').click();
         });
@@ -143,6 +170,40 @@
             return false;
         });
         
+
+        $('.update_cover_pic').click(function(){
+            $('#cpid').click();
+        });
+        $('#cpid').change(function(){
+            //$('#modal4').modal('open');
+            $('.cpspin').css("display","block");
+            var csrftoken=document.getElementsByName('csrfmiddlewaretoken')[0].value
+            var formdata=new FormData($('#cpid')[0]);
+            var formdata=new FormData();
+            formdata.append("file",$('#cpid')[0].files[0]);
+            formdata.append("csrfmiddlewaretoken",csrftoken);
+            console.log(formdata['file']);
+            $.ajax({
+                type:"POST",
+                url:"{% url 'posts:uploadcp' user.id %}",
+                data: formdata,
+                contentType: false,
+                processData: false,
+                dataType:'json',
+                success:function(data){
+                    if(data.ok){
+                        $('.cpspin').css("display","none");
+                        $('.cp').attr("src",data.url)
+                    }
+                    else{
+                        alert("Failure");
+                    }
+                    
+                },
+                
+            });
+            return false;
+        });
     </script>
 </body>
 </html>
