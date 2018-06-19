@@ -14,6 +14,7 @@ main{
     margin-bottom:20px;  
     border: 1px solid black;
     width: 853px;
+    cursor: pointer;
 }
 .profile_pic{
     position: absolute;
@@ -118,7 +119,7 @@ img.pp,img.cp{
     background-color:rgba(0,0 ,0 , 0.5);
     cursor: pointer;
 }
-.spinner{
+.spinner,.cpspin{
     position: absolute;
     width: 168px;
     height: 168px;
@@ -131,6 +132,10 @@ img.pp,img.cp{
     display: none;
     z-index: 2;
     font-size: 50px;
+}
+.cpspin{
+    width: 851px;
+    height: 315px;
 }
 .fa-spinner{
     position: absolute;
@@ -185,4 +190,78 @@ img.pp,img.cp{
 .save{
     left: 25%;
     width: 50%;
+}
+.pp_side{
+    
+    border-radius: 50%;
+}
+.pp_img,.blog_title{
+    float: left;
+    
+}
+.blog_title{
+    white-space: nowrap; 
+    font-size: 40px;
+    
+    
+    width: 490px;
+    /*border: 2px solid red;*/
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.pp_img{
+    margin-top: 5px;
+}
+.name{
+    position: absolute;
+    left: 25%;
+    bottom: 5%;
+    font-size: 40px;
+    z-index: 2;
+    font-weight: bolder;
+    color: white;
+    text-shadow:5px 5px 10px rgba(0,0 ,0 , 0.5);
+}
+.update_cover_pic{
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    z-index: 2;
+    cursor: pointer;
+}
+.update_cover_pic span{
+    float: left;
+}
+.update_cover_pic span i.fa{
+    font-size: 30px;
+    color: rgba(255, 255, 255, 0.7);
+    transform: scale(1);
+    transition: 0.5s;
+}
+.update_cover_pic .com{
+    display: none;
+    float: left;
+    color: white;
+    text-align: center;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+.cover:hover .update_cover_pic{
+    background-color: rgba(0,0 ,0 , 0.5);
+    border: 2px solid white;
+}
+.cover:hover .update_cover_pic span i.fa{
+    transform: scale(0.6);
+}
+.cover:hover .update_cover_pic .com{
+    display: block;
+}
+.dropdown-trigger{
+    font-size: 20px;
+    color: black;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    top: 30px;
 }

@@ -186,7 +186,22 @@ def bio_saves(request,user_id):
         'status':True,
     }
     return JsonResponse(data)
-
+def cp_uploads(request,user_id):
+    user=User.objects.get(id=user_id)
+    profile=Profile.objects.get(user=user)
+    
+    data={
+            'ok':False
+        }
+    if request.method=='POST':
+        user.profile.cover_pic=request.FILES['file']
+        user.save()
+        user.profile.save()
+        data={
+            'ok':True,
+            'url':str(user.profile.cover_pic.url)
+        }
+    return JsonResponse(data)
 # class Profile_Update(UpdateView):
 #     model=Profile
 #     fields=['profile_pic']

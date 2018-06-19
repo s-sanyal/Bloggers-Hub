@@ -29,5 +29,7 @@ urlpatterns = [
      #/posts/pp_upload/<user_id>/
     url(r'^pp_upload/(?P<user_id>[0-9]+)/$',views.pp_uploads, name='uploadpp'),
     #/posts/bio_save/<user_id>/
-    url(r'^bio_save/(?P<user_id>[0-9]+)/$',views.bio_saves,name='edit_bio')
+    url(r'^bio_save/(?P<user_id>[0-9]+)/$',views.bio_saves,name='edit_bio'),
+    #/posts/cp_upload/<user_id>/
+    url(r'^cp_upload/(?P<user_id>[0-9]+)/$',views.cp_uploads, name='uploadcp'),
 ]

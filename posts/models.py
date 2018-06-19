@@ -11,6 +11,7 @@ class Profile(models.Model):
      phone=models.IntegerField(default=0)
      city=models.CharField(max_length=100)
      profile_pic=models.FileField(default='blank-profile-picture-973460_640.png')
+     cover_pic=models.FileField(default='default-bigcover.jpg')
      @receiver(post_save,sender=User)
      def create_user_profile(sender,instance, created, **kwargs):
          if created:
