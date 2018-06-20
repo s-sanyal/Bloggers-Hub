@@ -32,4 +32,8 @@ urlpatterns = [
     url(r'^bio_save/(?P<user_id>[0-9]+)/$',views.bio_saves,name='edit_bio'),
     #/posts/cp_upload/<user_id>/
     url(r'^cp_upload/(?P<user_id>[0-9]+)/$',views.cp_uploads, name='uploadcp'),
+    #/posts/delete/<blog_id>/
+    url(r'^delete/(?P<pk>[0-9]+)/$',views.DeletePosts.as_view(),name='delete'),
+    #/posts/update_posts/<blog_id>/
+    url(r'^update_posts/(?P<pk>[0-9]+)/$',views.UpdatePost.as_view(),name='update'),
 ]

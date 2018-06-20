@@ -7,7 +7,7 @@
                     <div class="modal-content">
                         <div class="card-panel blue white-text"><h5>SIGN UP</h5></div>
                         <div class="row">
-                            <form class="col s12" action="{% url 'posts:registration' %}" method="post" enctype="multipart/form-data">
+                            <form id="formid" class="col s12" action="{% url 'posts:registration' %}" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div>
                                     <p class="err center-align red lighten-1 white-text">Username already taken</p>
@@ -56,62 +56,44 @@
         $(document).ready(function(){
             $('.tooltipped').tooltip();
           });
-          $('#USERNAME3').change(function(e){
-            var name=$(this).val();
-            console.log(name);
-            $.ajax({
-                url:'{% url "posts:check" %}',
-                data:{
-                    'name':name,
-                },
-                dataType:'json',
-                success:function(data){
-                    if(data.is_taken){
-                        $('#USERNAME3').parent().next('.icon').children('.fa').removeClass('fa-check');
-                        $('#USERNAME3').parent().next('.icon').children('.fa').addClass('fa-times');
-                        $('#USERNAME3').parent().next('.icon').css("display","block");
-                        $('.err').css("display","block");
-                        //alert("Username already taken");  
-                    }
-                    else{
-                        $('.err').css("display","none");
-                        name=name.toUpperCase();
-                        var k=0,i;
-                        for(i=0;i<name.length;i++){
-                            ch=name.charAt(i);
-                            if((ch>='A' && ch<='Z')|| (ch>='0' && ch<='9')|| ch==='_' ||ch==='@'||ch==='+'||ch==='.'||ch==='-'){
-                                continue;
-                            }
-                            else{
-                                k=1;
-                            }
-                        }
-                        console.log(k);
-                        if(k==0){
-                            $('#USERNAME3').parent().next('.icon').children('.fa').removeClass('fa-times');
-                            $('#USERNAME3').parent().next('.icon').children('.fa').addClass('fa-check');
-                            $('#USERNAME3').parent().next('.icon').css("display","block"); 
-                        }
-                        else{
-                            $('#USERNAME3').parent().next('.icon').children('.fa').removeClass('fa-check');
-                            $('#USERNAME3').parent().next('.icon').children('.fa').addClass('fa-times');
-                            $('#USERNAME3').parent().next('.icon').css("display","block");
-                        }
-                        
-                    }
-                }
-            });
-        });
+
         $('#USERNAME3').keyup(function(e){
+            $('.err').css("display","none");
+            name=$(this).val().toUpperCase();
+            var k=0,i;
+            for(i=0;i<name.length;i++){
+                ch=name.charAt(i);
+                if((ch>='A' && ch<='Z')|| (ch>='0' && ch<='9')|| ch==='_' ||ch==='@'||ch==='+'||ch==='.'||ch==='-'){
+                    continue;
+                }
+                else{
+                    k=1;
+                }
+            }
+            console.log(k);
+            if(k==0){
+                $('#USERNAME3').parent().next('.icon').children('.fa').removeClass('fa-times');
+                $('#USERNAME3').parent().next('.icon').children('.fa').addClass('fa-check');
+                $('#USERNAME3').parent().next('.icon').css("display","block"); 
+            }
+            else{
+                $('#USERNAME3').parent().next('.icon').children('.fa').removeClass('fa-check');
+                $('#USERNAME3').parent().next('.icon').children('.fa').addClass('fa-times');
+                $('#USERNAME3').parent().next('.icon').css("display","block");
+            }
+
             var num=document.getElementsByClassName("fa-check").length;
             if(num==3){
                 $('.reg').removeClass("disabled");
             }
             else{
                 $('.reg').addClass("disabled");
-            }           
+            }    
+                 
         });
-        $('#email3').change(function(e){
+  
+        $('#email3').keyup(function(e){
+            $('.e-err').css("display","none");
             var x,k=0,v=0;
             x=$(this).val();
             var atpos = x.indexOf("@");
@@ -126,41 +108,19 @@
                     $('#email3').parent().next('.icon').css("display","block");
                 }
                 else{
-                    $.ajax({
-                        url:'{% url "posts:echeck" %}',
-                        data:{
-                            'mail':x,
-                        },
-                        dataType:'json',
-                        success:function(data){
-                            if(data.is_taken){
-                                console.log(data.is_taken);
-                                $('.e-err').css("display","block");
-                                $('#email3').parent().next('.icon').children('.fa').removeClass('fa-check');
-                                $('#email3').parent().next('.icon').children('.fa').addClass('fa-times');
-                                $('#email3').parent().next('.icon').css("display","block");
-                            }
-                            
-                            else{
-                                $('.e-err').css("display","none");
-                                $('#email3').parent().next('.icon').children('.fa').removeClass('fa-times');
-                                $('#email3').parent().next('.icon').children('.fa').addClass('fa-check');
-                                $('#email3').parent().next('.icon').css("display","block");
-                      
-                            }
-                        
-                        }
-                    });                           
-               }
-        });
-        $('#email3').keyup(function(e){
-            var num=document.getElementsByClassName("fa-check").length;
+                    $('.e-err').css("display","none");
+                    $('#email3').parent().next('.icon').children('.fa').removeClass('fa-times');
+                    $('#email3').parent().next('.icon').children('.fa').addClass('fa-check');
+                    $('#email3').parent().next('.icon').css("display","block");
+                }
+
+                var num=document.getElementsByClassName("fa-check").length;
             if(num==3){
                 $('.reg').removeClass("disabled");
             }
             else{
                 $('.reg').addClass("disabled");
-            }
+            }    
         });
         $('#PASSWORD3').keyup(function(e){
             var pass=$('#PASSWORD3').val();
@@ -184,15 +144,43 @@
                 $('#PASSWORD3').parent().next('.icon').children('.fa').addClass('fa-times');
                 $('#PASSWORD3').parent().next('.icon').css("display","block");               
             }
+            
             var num=document.getElementsByClassName("fa-check").length;
             if(num==3){
                 $('.reg').removeClass("disabled");
             }
             else{
                 $('.reg').addClass("disabled");
-            }
+            }    
+
         });
         
+        $('#formid').submit(function(event){
+            event.preventDefault();
+            var a,b;
+            $.ajax({
+                url:'{% url "posts:check" %}',
+                data:{
+                    'name':$('#USERNAME3').val(),
+                    'mail': $('#email3').val(),
+                },
+                dataType:'json',
+                success:function(data){
+                    a=data.name_is_taken;
+                    b=data.mail_is_taken;
+                    if(data.name_is_taken){
+                        $('.err').css("display","block");
+                    }
+                    if(data.mail_is_taken){
+                        $('.e-err').css("display","block");
+                    }
+                    if(!data.name_is_taken && !data.mail_is_taken){
+                    $('#formid').unbind("submit").submit();
+                    }
+                }
+               
+        });
 
+    });
 </script>
 </html>

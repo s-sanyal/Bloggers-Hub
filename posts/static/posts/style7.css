@@ -1,6 +1,8 @@
 #modal3{
     top: 3% !important;
     height: 95% !important; 
+    max-height: 100% !important ; 
+    overflow-y: hidden !important ;
 }
 .reg{
     position: relative;

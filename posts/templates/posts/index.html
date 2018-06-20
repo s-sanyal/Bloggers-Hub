@@ -34,7 +34,7 @@
         {% for topic in all_topics %}
            
             <div class="topics carousel-item" style="height:350px;width:400px;">
-                <img src="{{ topic.topic_logo }}" alt="TOPIC LOGO" width="10px" height="300px">
+                <img src="{{ topic.topic_logo.url }}" alt="TOPIC LOGO" width="10px" height="300px">
                 <a class="topic-names" href="{% url 'posts:detail' topic.id 1 %}"><p>{{ topic }}</p></a>
                
             </div>

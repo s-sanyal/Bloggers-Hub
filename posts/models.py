@@ -27,7 +27,7 @@ class Profile(models.Model):
 class Topic(models.Model):
     topic_name=models.CharField(max_length=300,unique=True)
     genre= models.CharField(max_length=100,unique=True)
-    topic_logo=models.CharField(max_length=1000)
+    topic_logo=models.FileField(default='default.png')
     def __str__(self):
         return self.topic_name
 class Blogs(models.Model):

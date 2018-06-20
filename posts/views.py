@@ -3,7 +3,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.http import JsonResponse
 from django.views import generic
 from django.views.generic import View
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView,DeleteView
+from django.core.urlresolvers import reverse_lazy
 from .forms import ImageForm
 from .models import Topic,Blogs,Profile
 from django.contrib.auth.models import User
@@ -79,15 +80,21 @@ class UserFormView(View):
         #(return render(request,self.template_name,{'form':form})
 def check(request):
     username=request.GET.get('name',None)
+    mail=request.GET.get('mail',None)
     data = {
-        'is_taken': User.objects.filter(username__iexact=username).exists()
+        'name_is_taken': User.objects.filter(username__iexact=username).exists(),
+        'mail_is_taken': User.objects.filter(email=mail).exists(),
     }
     return JsonResponse(data)
 def e_check(request):
     mail=request.GET.get('mail',None)
-    data = {
-        'is_taken': User.objects.filter(email=mail).exists()
-    }
+    data={}
+    data['taken']= User.objects.filter(email=mail).exists()
+    if User.objects.filter(email=mail).exists():
+        data['is_taken']=User.objects.filter(email=mail)[0].id==request.user.id
+    # data = {
+    #     'is_taken': User.objects.filter(email=mail)[0].id==request.user.id
+    # }
     return JsonResponse(data)
 class LoginFormView(View):
     #form_class=LoginForm
@@ -138,13 +145,26 @@ class AddFormView(View):
         return render(request,self.template_name,{'all_topics':all_topics,'all_blogs':all_blogs})
     
     def post(self,request):
-        topic=request.POST['topic']
-        author=request.user.username
-        title=request.POST['title']
-        description=request.POST['description']
-        Blogs.objects.create(topic=Topic.objects.get(topic_name=topic),
+        try:
+
+            topic=request.POST['topic']
+            author=request.user.username
+            title=request.POST['title']
+            description=request.POST['description']
+            Blogs.objects.create(topic=Topic.objects.get(topic_name=topic),
                 author=Profile.objects.get(user=User.objects.get(username=author)),title=title,description=description)
-        return redirect('posts:index')
+            return redirect('posts:index')
+        except:
+            topic_name=request.POST['topic_new']
+            genre=name=request.POST['genre']
+            topic_logo=request.FILES['topic_logo']
+            topic=Topic.objects.create(topic_name=topic_name,genre=genre,topic_logo=topic_logo)
+            author=request.user.username
+            title=request.POST['title']
+            description=request.POST['description']
+            Blogs.objects.create(topic=topic,author=Profile.objects.get(user=User.objects.get(username=author)),
+                                    title=title,description=description)
+            return redirect('posts:index')
 def profile_view(request,user_id):
     user=User.objects.get(id=user_id)
     profile=Profile.objects.get(user=user)
@@ -174,18 +194,19 @@ def pp_uploads(request,user_id):
 def bio_saves(request,user_id):
     user=User.objects.get(id=user_id)
     profile=Profile.objects.get(user=user)
-    user.profile.phone=request.GET.get('ph',None)
-    user.email=request.GET.get('mail',None)
-    user.profile.city=request.GET.get('city',None)
+    user.profile.phone=request.POST['ph']
+    user.email=request.POST['mail']
+    user.profile.city=request.POST['city']
     user.save()
     user.profile.save()
-    data={
-        'ph':user.profile.phone,
-        'mail':user.email,
-        'city':user.profile.city,
-        'status':True,
-    }
-    return JsonResponse(data)
+    # data={
+    #     'ph':user.profile.phone,
+    #     'mail':user.email,
+    #     'city':user.profile.city,
+    #     'status':True,
+    # }
+    #return JsonResponse(data)
+    return redirect('posts:profile',user_id=user.id)
 def cp_uploads(request,user_id):
     user=User.objects.get(id=user_id)
     profile=Profile.objects.get(user=user)
@@ -202,6 +223,38 @@ def cp_uploads(request,user_id):
             'url':str(user.profile.cover_pic.url)
         }
     return JsonResponse(data)
-# class Profile_Update(UpdateView):
-#     model=Profile
-#     fields=['profile_pic']
+
+class DeletePosts(DeleteView):
+    model=Blogs
+    def delete(self,request,*args,**kwargs):
+        self.get_object().delete()
+        data={
+            'status':True,
+            }
+        return JsonResponse(data)
+    # def get_success_url(self):
+    #     prof=self.object.author
+    #     return reverse_lazy('posts:profile',kwargs={'user_id':prof.user.id})
+    def get(self,request,*args,**kwargs):
+        return self.post(request,*args,**kwargs)
+class UpdatePost(UpdateView):
+    model=Blogs
+    def get(self,request,pk):
+        blg=self.get_object()
+        all_topics=Topic.objects.all()
+        all_blogs=Blogs.objects.all()
+        data={}
+        data['topic']=blg.topic.topic_name
+        data['author']=blg.author.user.username
+        data['title']=blg.title
+        data['description']=blg.description
+        return render(request,'posts/update_post.html',{'all_topics':all_topics,'all_blogs':all_blogs,
+                            'data':json.dumps(data)})
+    def post(self,request,pk):
+        blg=self.get_object()
+        blg.topic=Topic.objects.get(topic_name=request.POST['topic'])
+        blg.author=Profile.objects.get(user=User.objects.get(username=request.user.username))
+        blg.title=request.POST['title']
+        blg.description=request.POST['description']
+        blg.save()
+        return redirect('posts:index')

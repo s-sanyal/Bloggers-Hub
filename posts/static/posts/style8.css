@@ -1,0 +1,16 @@
+.disp{
+    display: none;
+}
+.add_topic{
+    float: right;
+}
+.post{
+    width: 25%;
+    left: 25%;
+}
+.err{
+    display: none;
+}
+.err2{
+    display: none;
+}

@@ -11,8 +11,9 @@
 
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
-   
-  
+    <script src="https://use.fontawesome.com/64b4715cd6.js"></script>
+    {%load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'posts/style8.css' %}"/>
 </head>
 <body>
     <div class="container" >
@@ -22,17 +23,43 @@
                 <div class="row">
                 <form class="col s12" action="{% url 'posts:Add' %}" onsubmit="this['description'].value=quill.getContentts();" method="post" enctype="multipart/form-data">
                   {% csrf_token %}
-                  <div class="row">
+                  <div>
+                      <p class="err2 center-align red lighten-1 white-text">No match found</p>
+                  </div>
+                  <div class="row topic" >
                     <div class="input-field col s12">
                         <input id="topic" type="text" class="autocomplete" name="topic" autocomplete="off">
-                        <label for="topic">TOPIC</label>
+                        <label for="topic">TOPIC(PRE-EXISTING)</label>
                     </div>   
+                  </div>
+                  <div class="row">
+                    <a class="add_topic" href=""><span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span> Add new Topic</a>
+                  </div>
+                  <div class="row new_topic disp" >
+                      
+                          <div class="input-field col s12">
+                              <input disabled id="topic_new" type="text" name="topic_new" autocomplete="off">
+                              <label for="topic_new">NEW TOPIC</label>
+                          </div>   
+                      
+                      
+                          <div class="input-field col s12">
+                              <input disabled id="genre" type="text" name="genre" autocomplete="off">
+                              <label for="genre">GENRE</label>
+                          </div>   
+                      
+                          <div class="input-field col s12">
+                          <input disabled type="file" id="topic_logo" name="topic_logo">
+                          </div>
                   </div>
                   <div class="row">
                     <div class="input-field col s12">
                       <input disabled value="{{ request.user.username }}" id="disabled" type="text" class="validate" name="author">
                       <label for="disabled">Author(Uneditable)</label>
                     </div>
+                  </div>
+                  <div>
+                      <p class="err center-align red lighten-1 white-text">Title already taken</p>
                   </div>
                   <div class="row">
                     <div class="input-field col s12">
@@ -47,7 +74,7 @@
                         <input id="desc" type="hidden" name="description">
                     </div>
                   </div>
-                  <button class="btn-large waves-effect waves-dark" type="submit" style="width:25%">button</button>
+                  <button class="post btn-large waves-effect waves-dark disabled" type="submit" >POST</button>
                 </form>
               </div>
             </div>
@@ -56,6 +83,107 @@
   
  
   <script>
+      $('.add_topic').click(function(e){
+        e.preventDefault();
+        $('.new_topic').toggleClass("disp");
+        if($('.new_topic').hasClass("disp")==false){
+          $('#topic').prop("disabled",true);
+          $('#topic_new').prop("disabled",false);
+          $('#genre').prop("disabled",false);
+          $('#topic_logo').prop("disabled",false);
+          $('#topic').val("");
+          $('#topic_new').val("");
+          $('#genre').val("");
+          $('#topic_logo').val("");
+        }
+        if($('.new_topic').hasClass("disp")==true){
+          $('#topic').prop("disabled",false);
+          $('#topic_new').val("");
+          $('#genre').val("");
+          $('#topic_logo').val("");
+          $('#topic').val("");
+          $('#topic_new').prop("disabled",true);
+          $('#genre').prop("disabled",true);
+          $('#topic_logo').prop("disabled",true);
+        }
+      });
+      
+      
+
+      $('#topic_new').keyup(function(){
+        
+        if($('#topic_new').val()!="" && $('#genre').val()!="" &&  $('#topic_logo').val()!="" &&  $('#title').val()!=""){
+          $('.post').removeClass("disabled");
+        }
+      });
+
+      $('#genre').keyup(function(){
+        if($('#topic_new').val()!="" && $('#genre').val()!="" &&  $('#topic_logo').val()!="" &&  $('#title').val()!=""){
+          $('.post').removeClass("disabled");
+        }
+      });
+
+      $('#topic_logo').change(function(){
+        if($('#topic_new').val()!="" && $('#genre').val()!="" &&  $('#topic_logo').val()!="" &&  $('#title').val()!=""){
+          $('.post').removeClass("disabled");
+        }
+      });
+
+      $('#topic').change(function(){
+        var g=0;
+        //alert("Change!!!");
+        var top= $('#topic').val();
+        console.log(top);
+        "{%for i in all_topics%}"
+            if ('{{i.topic_name}}' == top){
+              g=1;
+            }
+        "{% endfor %}"
+        console.log(g);
+        if(g==0){
+          $('.err2').css("display","block");
+        }
+        else{
+          $('.err2').css("display","none");
+        }
+        
+        if($('#topic').val()!="" && g==1 && $('#title').val()!=""){
+          $('.post').removeClass("disabled");
+        }
+        else{
+          $('.post').addClass("disabled");
+        }
+      });
+      
+
+      $('#topic').keyup(function(){
+        var g=0;
+        //alert("Change!!!");
+        var top= $('#topic').val();
+        console.log(top);
+        "{%for i in all_topics%}"
+            if ('{{i.topic_name}}' == top){
+              g=1;
+            }
+        "{% endfor %}"
+        console.log(g);
+        if(g==0){
+          $('.err2').css("display","block");
+        }
+        else{
+          $('.err2').css("display","none");
+        }
+        
+        if($('#topic').val()!="" && g==1 && $('#title').val()!=""){
+          $('.post').removeClass("disabled");
+        }
+        else{
+          $('.post').addClass("disabled");
+        }
+      });
+
+      
+
     var toolbarOptions=[
         ['bold', 'italic', 'underline', 'strike'],
         ['blockquote','code-block'],
@@ -94,7 +222,7 @@
           {% endfor %}
           console.log(arr);
             len=arr.length;
-          $('#title').change(function(){
+          $('#title').keyup(function(){
               x=$('#title').val();
               console.log(x.toLowerCase());
 
@@ -102,11 +230,21 @@
               console.log(x.toLowerCase()===arr[i]);
                  if(x.toLowerCase()===arr[i]){
                    k=1;
+                   $('.err').css("display","block");
+                   $('.post').addClass("disabled");
                    console.log("Hello");
                    break;
                  }
                  else{
-                   k=0;     
+                   k=0;    
+                   $('.err').css("display","none");
+                   if((($('#topic_new').val()!="" && $('#genre').val()!="" &&  $('#topic_logo').val()!="")||$('#topic').val()!="") &&  $('#title').val()!=""){
+                    $('.post').removeClass("disabled");
+                  }
+                   else{
+                    $('.post').addClass("disabled");
+                   }
+                  
                  }
              }
              console.log(k);

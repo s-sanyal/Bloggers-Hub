@@ -3,19 +3,28 @@
         <div class="modal-content">
                 <div class="card-panel blue white-text"><h5>EDIT BIO</h5></div>
                 <div class="row">
-                        <form action="{% url 'posts:uploadpp' user.profile.id %}" method="post" enctype="multipart/form-data">
+                        <form id="frm1" action="{% url 'posts:edit_bio' user.id %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <i class="fa fa-phone prefix" aria-hidden="true"></i>
-                                    <input id="icon_telephone" type="tel" class="validate">
-                                    <label class="active" for="icon_telephone">Telephone</label>
-                                </div>
+                            <div>
+                                <p class="err3 center-align red lighten-1 white-text">Invalid Telephone No.</p>
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <i class="fa fa-envelope prefix" aria-hidden="true"></i>
-                                    <input id="email" type="email" class="validate">
+                                    <i class="fa fa-phone prefix" aria-hidden="true"></i>
+                                    <input id="icon_telephone" name="ph" type="tel" class="validate" autocomplete="off">
+                                    <label class="active" for="icon_telephone">Telephone</label>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="err5 center-align red lighten-1 white-text">Invalid E-mail</p>
+                            </div>
+                            <div>
+                                <p class="e-err center-align red lighten-1 white-text">E-mail already taken</p>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="fa fa-envelope prefix"  aria-hidden="true"></i>
+                                    <input id="email" type="email" name="mail" class="validate" autocomplete="off">
                                     <label class="active" for="email">Email</label>
                                 </div>
                             </div>
@@ -23,13 +32,14 @@
                             <div class="row">
                                 <div class="input-field col s12">
                                     <i class="fa fa-map-marker prefix" aria-hidden="true"></i>
-                                    <input type="text" id="autocomplete-input" class="autocomplete">
+                                    <input type="text" id="autocomplete-input" name="city" class="autocomplete" autocomplete="off">
                                     <label class="active" for="autocomplete-input">City</label>
                                 </div>
                             </div>
+                            <button class="waves-effect waves-light btn-large save" type="submit">Save</button>
                         </form>
                     
-                        <a class="waves-effect waves-light btn-large save">Save</a> 
+                         
                 </div>
         </div>
     </div>
@@ -78,34 +88,79 @@
 
                 $("label[for=autocomplete-input]").addClass('active');
                 $('#autocomplete-input').val('{{user.profile.city}}');
-                
-                $('.save').click(function(){
-                    var ph=$('#icon_telephone').val();
-                    var mail= $('#email').val();
-                    var city= $('#autocomplete-input').val();
-                    $.ajax({
-                        url:'{% url "posts:edit_bio" user.id %}',
-                        data:{
-                            'ph':ph,
-                            'mail':mail,
-                            'city':city,
-                        },
-                        dataType: 'json',
-                        success: function(data){
-                            
-                            if(data.status){
-                                
-                                $('#modal4').modal('close');
-                                console.log(data.ph);
-                                console.log($('.phone').children('.val').html());
-                                $('.phone').children('.val').html(data.ph);
-                                $('.mail').children('.val').html(data.mail);
-                                $('.city').children('.val').html(data.city);
-                            }
+
+                $('#icon_telephone').keyup(function(){
+                    var tele=$('#icon_telephone').val();
+                    var m=0;
+                    for(i=0;i<tele.length;i++){
+                        ch=tele.charAt(i);
+                        if(ch>='0' && ch<='9'){
+                            continue
+                        }
+                        else{
+                            m=1;
+                            break;
+                        }
+                    }
+                    if(($('#icon_telephone').val().length!=10) || (m==1)){
+                        $('.err3').css("display","block");
+                        $('.save').addClass('disabled');
+                    }
+                    else if(($('#icon_telephone').val().length==10) && (m==0)){
+                        $('.err3').css("display","none");
+                        $('.save').removeClass("disabled");
+                    }
+                });
+
+                $('#email').keyup(function(e){
+                    $('.e-err').css("display","none");
+                    var x,k=0,v=0;
+                    x=$(this).val();
+                    var atpos = x.indexOf("@");
+                    var dotpos = x.lastIndexOf(".");
+                    if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length) {
+                        k=1;
+                    }
+                        if(k==1){
+                            $('.err5').css("display","block");
+                            $('.save').addClass('disabled');
                            
-                        },
+                        }
+                        else{
+                            $('.err5').css("display","none");
+                            $('.save').removeClass("disabled");
+                        }
                     });
-                    return false;
+                
+                $('#frm1').submit(function(ev){
+                    ev.preventDefault();
+                    //var ph=$('#icon_telephone').val();
+                    var mail= $('#email').val();
+                    console.log(mail);
+                    //var city= $('#autocomplete-input').val();
+                    $.ajax({
+                        url:"{% url 'posts:echeck' %}",
+                        data:{
+                            'mail':mail,
+                        },
+                        dataType:'json',
+                        success:function(data){
+                            if(data.taken){
+                                if(data.is_taken){
+                                    $('#frm1').unbind("submit").submit();
+                                }
+                                else{
+                                    console.log(data.is_taken);
+                                    $('.e-err').css("display","block");
+                                    //ev.preventDefault();
+                                }
+                            }
+                            else{
+                                $('#frm1').unbind("submit").submit();
+                            }
+                        }
+                    });
+
                 });
             });
 

@@ -186,6 +186,8 @@ img.pp,img.cp{
 #modal4{
     top: 2% !important;
     height: 97% !important; 
+    max-height: 100% !important ; 
+    overflow-y: hidden !important ;
 }
 .save{
     left: 25%;
@@ -257,11 +259,26 @@ img.pp,img.cp{
 .cover:hover .update_cover_pic .com{
     display: block;
 }
-.dropdown-trigger{
+.opt{
     font-size: 20px;
     color: black;
-    margin-left: 20px;
-    margin-bottom: 20px;
+    margin-left: 5px;
+    margin-top: 5px;
     position: relative;
-    top: 30px;
+    /*top: 30px;*/
+    float: right;
+    z-index: 2;
+}
+ul.dropdown-content li a{
+    padding: 10px;
+    padding-left: 5px;
+}
+ul.dropdown-content li a span{
+    margin-right: 5px; 
+}
+ul.dropdown-content li:last-child a{
+    color: red;
+}
+.e-err,.err3,.err5{
+    display: none;
 }
