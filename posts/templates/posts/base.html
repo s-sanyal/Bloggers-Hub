@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}Title{% endblock %}</title>
     {% load staticfiles %}
+    
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
      <!-- Compiled and minified CSS -->
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/css/materialize.min.css">
@@ -11,7 +12,7 @@
      <!-- Compiled and minified JavaScript -->
      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
     
-    <link rel="stylesheet" type="text/css" href="{% static 'posts/style.css' %}"/>
+     <link rel="stylesheet" type="text/css" href="{% static 'posts/style.css' %}"/>
    
     <script src="https://use.fontawesome.com/64b4715cd6.js"></script>
     {%load static %}
@@ -37,23 +38,29 @@
                 </div>
             </div>
     
-    <div class="nav-bar  teal darken-2">
-        <a href="{% url 'posts:index' %}">BLOGGERS HUB</a>
-        <a href="#"><span><i class="fa fa-pencil" aria-hidden="true"></i></span>CONTRIBUTORS</a>
-        <a href="#"><span><i class="fa fa-users" aria-hidden="true"></i></span>ABOUT US</a>
-         <div class="search">
+    <ul class="nav-bar  teal darken-2">
+        <li class="tab"><a class="links" href="{% url 'posts:index' %}">BLOGGERS HUB</a></li>
+        <li class="tab"><a class="links" href="#"><span><i class="fa fa-pencil" aria-hidden="true"></i></span>CONTRIBUTORS</a>
+            <ul class="drpdwn">
+                {% for users in all_user %}
+                    <li class="contrib"><a class="blogger" href="{%url 'posts:profile' users.id %}">{{users.username}}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+        
+        <li class="tab"><a class="links" href="#"><span><i class="fa fa-users" aria-hidden="true"></i></span>ABOUT US</a></li>
+         <li class="tab"><div class="search">
              <input type="text" placeholder="Search..">
              <button href="#" class="search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
-         </div>
+         </div></li>
          {% if request.user.username != "" %}
-        <a class="modal-trigger" href="#modal2"><span><i class="fa fa-sign-out" aria-hidden="true"></i></span>LOG OUT</a>
-        <a href="#">{{request.user.username}}</a>
+        <li class="tab"><a class="modal-trigger links" href="#modal2"><span><i class="fa fa-sign-out" aria-hidden="true"></i></span>LOG OUT</a></li>
+        <li class="tab"><a class="links" href="{%url 'posts:profile' user.id %}">{{user.username}}</a></li>
         {% else %}
-        <a class="modal-trigger" href="#modal1"><span><i class="fa fa-sign-in" aria-hidden="true"></i></span>LOG IN</a>
-        <a class="modal-trigger" href="#modal3"><span><i class="fa fa-user-plus" aria-hidden="true"></i></span>SIGN UP</a>
+        <li class="tab"><a  class="modal-trigger links" href="#modal1"><span><i class="fa fa-sign-in" aria-hidden="true"></i></span>LOG IN</a></li>
+        <li class="tab"><a  class="modal-trigger links" href="#modal3"><span><i class="fa fa-user-plus" aria-hidden="true"></i></span>SIGN UP</a></li>
         {% endif %}
-        
-    </div>
+    </ul>
     <div class="fixed-action-btn " >
         <a href="{%url 'posts:Add' %}" class="btn-floating btn-large red waves-effect waves-dark tooltipped" 
         data-position="left" data-tooltip="Add a Blog">

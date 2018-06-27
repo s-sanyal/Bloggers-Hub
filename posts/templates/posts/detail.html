@@ -22,14 +22,19 @@
 <title>BLOG POST</title>
 <body>
     <main>
-    <h1>{{ topic.topic_name }}</h1>
-
-    <h2>{{ topic.genre }}</h2>
+    <!--<h1>{{ topic.topic_name }}</h1>-->
+    <ul class="path">
+            <li><a href="{%url 'posts:index'%}">HOME </a></li>
+            <li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>
+            <li><a href="">{{ topic.topic_name }}</a></li>
+    </ul>
+            
+    <!--<h2>{{ topic.genre }}</h2>-->
 
    
         {% for blog in all_blogs %}
             <div class="contents">
-                <div class="title"><h3><span><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>{{ blog.title }}</h3></div>
+                <div class="title"><span class="pp_img"><img class="pp_side" src="{{blog.author.profile_pic.url}}"  width="50px" height="50px"></span><div class="blog_title">{{ blog.title }} </div></div>
                 <div class="blog-details">
                     <ul>
                         <li><span><i class="fa fa-pencil" aria-hidden="true"></i></span> : {{ blog.author }}</li>
@@ -50,7 +55,7 @@
         {% else %}
         <li class="waves-effect"><a href="{% url 'posts:detail' topic.id all_blogs.previous_page_number %}"><i class="material-icons">chevron_left</i></a></li>
          {% endif %}   
-        <li class="waves-effect active"><a href="#!">{{all_blogs.number}}</a></li>
+        <li class="waves-effect active"><a href="">{{all_blogs.number}}</a></li>
         {% if all_blogs.has_next %}    
             <li class="waves-effect"><a href="{% url 'posts:detail' topic.id all_blogs.next_page_number %}">{{all_blogs.next_page_number}}</a></li>
             

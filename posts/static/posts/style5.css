@@ -206,7 +206,7 @@ img.pp,img.cp{
     font-size: 40px;
     
     
-    width: 490px;
+    width: 470px;
     /*border: 2px solid red;*/
     display: block;
     overflow: hidden;
@@ -281,4 +281,11 @@ ul.dropdown-content li:last-child a{
 }
 .e-err,.err3,.err5{
     display: none;
+}
+.def{
+    padding: 5px;
+    color: rgba(0, 0,0, 0.7);
+    text-align: center;
+    
+    
 }

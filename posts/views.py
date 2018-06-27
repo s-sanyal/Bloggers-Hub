@@ -20,16 +20,25 @@ def index(request):
         pair[i]=blog.description
         i+=1
     user=request.user
+    all_user=User.objects.all()
+    contributors=[]
+    for i in all_user:
+        if len(Blogs.objects.filter(author=Profile.objects.get(user=i)))>0:
+            contributors.append(i)
     #if user.is_authenticated():
      #   return render(request,'posts/index2.html',{'all_topics':all_topics,'user':user})
     #else:
-    return render(request,'posts/index.html',{'all_topics':all_topics,'user':user,
+    return render(request,'posts/index.html',{'all_topics':all_topics,'user':user,'all_user':contributors,
                             'max_blogs':max_blogs,'pair':json.dumps(pair)})
 
 def detail(request , topic_id, page):
     topic=get_object_or_404(Topic,pk=topic_id)
     all_blogs = topic.blogs_set.all()
-    
+    all_user=User.objects.all()
+    contributors=[]
+    for i in all_user:
+        if len(Blogs.objects.filter(author=Profile.objects.get(user=i)))>0:
+            contributors.append(i)
 
     paginator= Paginator(all_blogs, 5)
     try:
@@ -44,13 +53,19 @@ def detail(request , topic_id, page):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         all_blogs= paginator.page(paginator.num_pages)
-    return render(request,'posts/detail.html',{'topic':topic,'all_blogs':all_blogs,'pair':json.dumps(pair)})
+    return render(request,'posts/detail.html',{'topic':topic,'all_blogs':all_blogs,'pair':json.dumps(pair),
+    'all_user':contributors})
 
 def descriptions(request,topic_id,blog_id):
+    all_user=User.objects.all()
+    contributors=[]
+    for i in all_user:
+        if len(Blogs.objects.filter(author=Profile.objects.get(user=i)))>0:
+            contributors.append(i)
     blog = get_object_or_404(Blogs,pk=blog_id)
     blog.views+=1
     blog.save()
-    return render(request, 'posts/descriptions.html', {'blog': blog})
+    return render(request, 'posts/descriptions.html', {'blog': blog,'all_user':contributors})
 
 class UserFormView(View):
     #form_class=UserForm
@@ -134,7 +149,12 @@ def logout_view(request):
 def loginmode(request,user_id):
     user=User.objects.get(pk=user_id)
     all_topics=Topic.objects.all()
-    return render(request,'posts/index2.html',{'all_topics':all_topics,'user':user})
+    all_user=User.objects.all()
+    contributors=[]
+    for i in all_user:
+        if len(Blogs.objects.filter(author=Profile.objects.get(user=i)))>0:
+            contibutors.append(i)
+    return render(request,'posts/index2.html',{'all_topics':all_topics,'user':user,'all_user':contributors})
 
 class AddFormView(View):
     template_name= 'posts/add_post.html'
@@ -173,8 +193,13 @@ def profile_view(request,user_id):
     for blog in all_blogs:
         pair[i]=blog.description
         i+=1
+    all_user=User.objects.all()
+    contributors=[]
+    for i in all_user:
+        if len(Blogs.objects.filter(author=Profile.objects.get(user=i)))>0:
+            contributors.append(i)
     return render(request,'posts/profile.html',{'user':user,'profile':profile,'all_blogs':all_blogs,
-                'pair':json.dumps(pair)})
+                'pair':json.dumps(pair),'all_user':contributors})
 def pp_uploads(request,user_id):
     user=User.objects.get(id=user_id)
     profile=Profile.objects.get(user=user)
