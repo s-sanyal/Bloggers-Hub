@@ -1,5 +1,8 @@
 <html>
     <head>
+            <title>Bloggers' Hub | {{topic.topic_name }}</title>
+            {%load static %}
+            <link rel="shortcut icon"  type="image/x-icon" href="{% static 'posts/12.png' %}" />
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 {% include 'posts/base.html' %}
  <!-- Compiled and minified CSS -->
@@ -17,7 +20,7 @@
  <link rel="stylesheet" type="text/css" href="{% static 'posts/style3.css' %}">
  {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'posts/style4.css' %}"/>
-         
+    
 </head> 
 <title>BLOG POST</title>
 <body>

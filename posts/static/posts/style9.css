@@ -1,0 +1,58 @@
+.fb,.git,.linkedin{
+    font-size: 30px;
+}
+ul li{
+    margin: 0px;
+}
+.linkedin{
+    
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 22px;
+    padding-right: 22px;
+    border-radius: 50%;
+}
+.git{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 22px;
+    padding-right: 22px;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4);
+    transition: 0.3s;
+}
+.linkedin{
+    background-color: #0077B5;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4);
+    transition: 0.3s;
+}
+.fb{
+    
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 27px;
+    padding-right: 27px;
+    border-radius: 50%;
+    background-color: #3b5999;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4);
+    transition: 0.3s;
+}
+.linkedin:hover{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4);
+}
+.git:hover{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4);
+}
+.fb:hover{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4);
+}
+.fb i{
+    color: white;
+}
+.git i{
+    color: #000;
+}
+.linkedin i{
+    color: white;
+}

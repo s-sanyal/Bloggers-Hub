@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Title{% endblock %}</title>
+   
     {% load staticfiles %}
     
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -50,8 +50,12 @@
         
         <li class="tab"><a class="links" href="#"><span><i class="fa fa-users" aria-hidden="true"></i></span>ABOUT US</a></li>
          <li class="tab"><div class="search">
-             <input type="text" placeholder="Search..">
-             <button href="#" class="search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+             <form method="POST" action="{%url 'posts:search'%}" >
+                  {% csrf_token %} 
+                    <input type="text" id="search" name="q" placeholder="Search Posts..">
+                    <button type="submit" class="search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+             </form>
+             
          </div></li>
          {% if request.user.username != "" %}
         <li class="tab"><a class="modal-trigger links" href="#modal2"><span><i class="fa fa-sign-out" aria-hidden="true"></i></span>LOG OUT</a></li>

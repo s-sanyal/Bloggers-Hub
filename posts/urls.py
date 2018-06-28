@@ -36,4 +36,6 @@ urlpatterns = [
     url(r'^delete/(?P<pk>[0-9]+)/$',views.DeletePosts.as_view(),name='delete'),
     #/posts/update_posts/<blog_id>/
     url(r'^update_posts/(?P<pk>[0-9]+)/$',views.UpdatePost.as_view(),name='update'),
-]
+    #/posts/searched/<searched_item>/
+    url(r'^searched/$',views.search_result,name="search"),
+    ]

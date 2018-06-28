@@ -10,6 +10,7 @@ from .models import Topic,Blogs,Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import json
+from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.files.storage import FileSystemStorage
 def index(request):
@@ -283,3 +284,34 @@ class UpdatePost(UpdateView):
         blg.description=request.POST['description']
         blg.save()
         return redirect('posts:index')
+def search_result(request):
+    q=request.POST['q']
+    if User.objects.filter(username__icontains=q).exists() and Topic.objects.filter(topic_name__icontains=q).exists():
+        blg=Blogs.objects.filter(
+            Q(title__icontains=q) |
+            Q(description__icontains=q) |
+            Q(author=Profile.objects.get(user=User.objects.get(username__icontains=q))) |
+            Q(topic=Topic.objects.filter(topic_name__icontains=q))
+            ).distinct()
+    elif User.objects.filter(username__icontains=q).exists():
+        blg=Blogs.objects.filter(
+            Q(title__icontains=q) |
+            Q(description__icontains=q) |
+            Q(author=Profile.objects.get(user=User.objects.get(username__icontains=q))) 
+            ).distinct()
+    elif Topic.objects.filter(topic_name__icontains=q).exists():
+        blg=Blogs.objects.filter(
+            Q(title__icontains=q) |
+            Q(description__icontains=q) |
+            Q(topic=Topic.objects.filter(topic_name__icontains=q))
+            ).distinct()
+    else:
+        blg=Blogs.objects.filter(
+            Q(title__icontains=q) |
+            Q(description__icontains=q) 
+            ).distinct()
+    pair={};i=0
+    for blog in blg:
+        pair[i]=blog.description
+        i+=1
+    return render(request,'posts/search.html',{'blg':blg,'pair':json.dumps(pair),'q':q})

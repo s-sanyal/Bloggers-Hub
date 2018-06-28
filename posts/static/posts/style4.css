@@ -1,7 +1,7 @@
 body{
     padding-top:4em;
 }
-#editor1,#editor2,#editor3,#editor4,#editor5{
+#editor1,#editor2,#editor3,#editor4,#editor5,.info{
     padding-left:20px;
     padding-right: 20px;
     margin :  auto;

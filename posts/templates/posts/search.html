@@ -1,0 +1,76 @@
+<html>
+    <head>
+            <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+            <title>Bloggers' Hub | Search</title>
+            {%load static %}
+            <link rel="shortcut icon"  type="image/x-icon" href="{% static 'posts/12.png' %}" />
+               <!-- Compiled and minified CSS -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+        
+            <!-- Compiled and minified JavaScript -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+                    
+            <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+            <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>  
+            <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+            <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+        
+             <script src="https://use.fontawesome.com/64b4715cd6.js"></script>
+             
+             {% include 'posts/base.html' %}
+             {%load static %}
+            <link rel="stylesheet" type="text/css" href="{% static 'posts/style3.css' %}">
+            {%load static %}
+            <link rel="stylesheet" type="text/css" href="{% static 'posts/style4.css' %}">
+            {% load static %}
+            <link rel="stylesheet" type="text/css" href="{% static 'posts/style1.css' %}"/> 
+        </head>
+        <body>
+            <main>
+            {% if blg %}
+                <h4>Search Results for : {{q}}</h4>
+                {% for blog in blg %}
+                <div class="contents">
+                        <div class="title"><span class="pp_img"><img class="pp_side" src="{{blog.author.profile_pic.url}}"  width="50px" height="50px"></span><div class="blog_title">{{ blog.title }} </div></div>
+                        <div class="blog-details">
+                            <ul>
+                                <li><span><i class="fa fa-pencil" aria-hidden="true"></i></span> : {{ blog.author }}</li>
+                                <li><span><i class="fa fa-tag" aria-hidden="true"></i></span> : {{ blog.topic }}</li>
+                                <li><span><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></span> : {{ blog.published_date }}</li>
+                                <li><span><i class="fa fa-eye" aria-hidden="true"></i></span> :  {{ blog.views }}</li>
+                            </ul> 
+                        </div>
+                        <div id="toolbar"></div>
+                        <div class="info" id="editor{{forloop.counter}}"></div>
+                        <a class="waves-effect waves-light btn-large more" href="{%url 'posts:descriptions' blog.topic.id blog.id %}">READ MORE</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+            <h2>NO BLOGS FOUND MATCHING THE REQUIRED CRITERIA</h2>
+            {% endif %}
+            <div id="editor" style="visibility:hidden;display:none"></div>
+        </main>
+        {% include 'posts/footer.html' %}
+            <script>
+                $('#search').val("{{q}}")
+                    var quill = new Quill('#editor',{
+                        modules:{
+                            toolbar:false
+                        },
+                        theme:'bubble'
+                    });
+                    var blogs = jQuery.parseJSON( "{{ pair | escapejs}}" ); 
+                    console.log(blogs);
+                    var count = Object.keys(blogs).length; 
+                    console.log(count); 
+                    for(i=0;i<count;i++){
+                        if(blogs[i]==""){
+                            continue;
+                        }
+                        var y=$.parseJSON(blogs[i]);
+                        quill.setContents(y);
+                        $('#editor'+(i+1)).html(quill.root.innerHTML.substring(0,300)+"...");
+                    }
+            </script>
+        </body>
+</html>
