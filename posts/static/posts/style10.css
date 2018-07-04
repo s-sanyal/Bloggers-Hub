@@ -1,0 +1,28 @@
+body{
+    overflow-x: hidden;
+}
+.ad{
+    position: relative;
+    top: 100px;
+    left: 35%;
+    width: 400px;
+    margin-bottom:100px; 
+    border: 1px solid rgba(255,255,255,0.7);
+  
+}
+
+.heading{
+    position: relative;
+    top: 0;
+    margin:auto;
+    margin-left:25px; 
+    margin-bottom: 25px;
+    top: 0;
+    text-align: center;
+    background-color:blue;
+    color: white;
+    font: 30px;
+    width: 300px;
+    height: 20px;
+
+}

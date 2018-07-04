@@ -181,3 +181,9 @@ li{
 .pp_img{
     margin-top: 5px;
 }
+.ad{
+    position: absolute;
+    top: 75em;
+  right: 30px;
+  
+}
