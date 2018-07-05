@@ -1,6 +1,6 @@
 /*/.pyc
-
-
+.py[cod]
+blog/settings/local.py
 db.sqlite3
 
 .DS_Store
