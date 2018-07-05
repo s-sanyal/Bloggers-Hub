@@ -59,7 +59,7 @@
          </div></li>
          {% if request.user.username != "" %}
         <li class="tab"><a class="modal-trigger links" href="#modal2"><span><i class="fa fa-sign-out" aria-hidden="true"></i></span>LOG OUT</a></li>
-        <li class="tab"><a class="links" href="{%url 'posts:profile' user.id %}">{{user.username}}</a></li>
+        <li class="tab"><a class="links" href="{%url 'posts:profile' user.id %}">{{request.user.username}}</a></li>
         {% else %}
         <li class="tab"><a  class="modal-trigger links" href="#modal1"><span><i class="fa fa-sign-in" aria-hidden="true"></i></span>LOG IN</a></li>
         <li class="tab"><a  class="modal-trigger links" href="#modal3"><span><i class="fa fa-user-plus" aria-hidden="true"></i></span>SIGN UP</a></li>
