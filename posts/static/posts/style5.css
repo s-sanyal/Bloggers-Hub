@@ -156,7 +156,9 @@ img.pp,img.cp{
     width: 80%;
     padding: 5px;
     color: #29b6f6;
-    
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .icons{
     width: 20%;
