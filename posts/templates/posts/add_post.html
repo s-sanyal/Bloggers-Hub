@@ -97,6 +97,10 @@
           $('#topic_logo').val("");
         }
         if($('.new_topic').hasClass("disp")==true){
+          $('.fa').addClass('fa-plus');
+          $('.fa').removeClass('fa-minus');
+         
+          $('.err2').css("display","none");
           $('#topic').prop("disabled",false);
           $('#topic_new').val("");
           $('#genre').val("");
@@ -105,6 +109,12 @@
           $('#topic_new').prop("disabled",true);
           $('#genre').prop("disabled",true);
           $('#topic_logo').prop("disabled",true);
+        }
+        else{
+          $('.fa').removeClass('fa-plus');
+          $('.fa').addClass('fa-minus');
+          
+          $('.err2').css("display","none");
         }
       });
       
