@@ -129,7 +129,7 @@ STATIC_URL = '/static/'
 #MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 CORS_REPLACE_HTTPS_REFERER      = True
