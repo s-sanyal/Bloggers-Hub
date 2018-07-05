@@ -8,7 +8,7 @@ from django.utils import timezone
 class Profile(models.Model):
      user=models.OneToOneField(User,max_length=100,on_delete=models.CASCADE)
      mail=models.CharField(max_length=250,editable=False)
-     phone=models.IntegerField(default=0)
+     phone=models.CharField(max_length=10)
      city=models.CharField(max_length=100)
      profile_pic=models.FileField(default='blank-profile-picture-973460_640.png')
      cover_pic=models.FileField(default='default-bigcover.jpg')
