@@ -101,7 +101,7 @@
                 <div class="info" id="editor{{forloop.counter}}"></div>
                
                 <ul id="dropdown{{forloop.counter}}" class="dropdown-content">
-                        <li><a  href="#!"><span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>Edit</a></li>
+                        <li><a  href="{%url 'posts:update' blog.id %}"><span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>Edit</a></li>
                         <li><a class="modal-trigger opt2" href="#modals{{forloop.counter}}"><span><i class="fa fa-trash-o" aria-hidden="true"></i></span>Delete</a></li>
                 </ul>                    
                 <div id="modals{{forloop.counter}}" class="modal">
