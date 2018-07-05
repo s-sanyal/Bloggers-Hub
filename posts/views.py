@@ -286,7 +286,9 @@ class UpdatePost(UpdateView):
         return redirect('posts:index')
 def search_result(request):
     q=request.POST['q']
-    if User.objects.filter(username__icontains=q).exists() and Topic.objects.filter(topic_name__icontains=q).exists():
+    if q=='':
+        blg=Blogs.objects.all()
+    elif User.objects.filter(username__icontains=q).exists() and Topic.objects.filter(topic_name__icontains=q).exists():
         blg=Blogs.objects.filter(
             Q(title__icontains=q) |
             Q(description__icontains=q) |
@@ -314,4 +316,9 @@ def search_result(request):
     for blog in blg:
         pair[i]=blog.description
         i+=1
-    return render(request,'posts/search.html',{'blg':blg,'pair':json.dumps(pair),'q':q})
+    all_user=User.objects.all()
+    contributors=[]
+    for i in all_user:
+        if len(Blogs.objects.filter(author=Profile.objects.get(user=i)))>0:
+            contributors.append(i)
+    return render(request,'posts/search.html',{'blg':blg,'pair':json.dumps(pair),'q':q,'all_user':contributors})
