@@ -1,5 +1,8 @@
 <html>
     <head>
+            <title>Bloggers' Hub |{{user.username}}</title>
+            {%load static %}
+            <link rel="shortcut icon"  type="image/x-icon" href="{% static 'posts/12.png' %}" />
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/css/materialize.min.css">
@@ -23,7 +26,8 @@
         {% include 'posts/base.html' %}
         
     </head>
-    <title>{{user.username}}</title>
+
+  
     <body>
         
         {% include 'posts/modal4.html' %}
