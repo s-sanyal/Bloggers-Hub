@@ -7,11 +7,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^posts/', include('posts.urls')),
 ]
-if settings.DEBUG:
-    urlpatterns += patterns('',
-        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
-    )
+
 #if settings.DEBUG:
 #urlpatterns+=(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT})
-#urlpatterns+= static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
+urlpatterns+= static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
