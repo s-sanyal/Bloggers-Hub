@@ -1,0 +1,14 @@
+boto==2.48.0
+boto3==1.7.50
+botocore==1.10.50
+dj-database-url==0.5.0
+Django==1.9
+django-storages==1.6.6
+docutils==0.14
+futures==3.2.0
+gunicorn==19.9.0
+jmespath==0.9.3
+psycopg2==2.7.5
+python-dateutil==2.7.3
+s3transfer==0.1.13
+six==1.11.0
