@@ -203,7 +203,7 @@ def profile_view(request,user_id):
                 'pair':json.dumps(pair),'all_user':contributors})
 def pp_uploads(request,user_id):
     user=User.objects.get(id=user_id)
-    profile=Profile.objects.get(user=user)
+    #profile=Profile.objects.get(user=user)
     
     data={
             'ok':False
@@ -219,7 +219,7 @@ def pp_uploads(request,user_id):
     return JsonResponse(data)
 def bio_saves(request,user_id):
     user=User.objects.get(id=user_id)
-    profile=Profile.objects.get(user=user)
+    #profile=Profile.objects.get(user=user)
     user.profile.phone=request.POST['ph']
     user.email=request.POST['mail']
     user.profile.city=request.POST['city']
@@ -235,7 +235,7 @@ def bio_saves(request,user_id):
     return redirect('posts:profile',user_id=user.id)
 def cp_uploads(request,user_id):
     user=User.objects.get(id=user_id)
-    profile=Profile.objects.get(user=user)
+    #profile=Profile.objects.get(user=user)
     
     data={
             'ok':False
