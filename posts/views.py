@@ -6,7 +6,7 @@ from django.views.generic import View
 from django.views.generic.edit import UpdateView,DeleteView
 from django.core.urlresolvers import reverse_lazy
 from .forms import ImageForm
-from .models import Topic,Blogs,Profile
+from posts.models import Topic,Blogs,Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import json
